@@ -14,13 +14,22 @@ html,body,#root{
 
 body{
   font-family: "Comic Neue", "Comic Sans MS", "Trebuchet MS", system-ui, -apple-system, sans-serif;
-  background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
-  color: #1f2937;
+  background: linear-gradient(180deg, #0f1723 0%, #0b1220 100%); /* dark gradient */
+  color: var(--pastel-champagne);
+  margin: 0;
 }
 
-/* Tiny helpers for the demo cards */
+/* card: keep shadow and radius, but DO NOT set background here so Tailwind's bg- classes control it */
 .card {
   border-radius: var(--card-radius);
-  background: white;
-  box-shadow: 0 6px 20px rgba(18,23,39,0.06);
+  box-shadow: 0 6px 20px rgba(18,23,39,0.15);
+  /* background intentionally left to classes (bg-...) */
 }
+
+/* small helper classes for using "theme colors" in non-tailwind places */
+.text-pastelChampagne { color: var(--pastel-champagne); }
+.text-pastelAguamarina { color: var(--pastel-aguamarina); }
+.bg-loreVerde { background: var(--lore-verde); color: white; }
+.bg-pastelChampagne { background: var(--pastel-champagne); color: #0b1220; }
+
+/* responsive helpers removed for brevity */
