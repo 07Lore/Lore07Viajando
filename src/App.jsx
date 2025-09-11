@@ -146,41 +146,59 @@ export default function App() {
             </div>
 
             {/* LADO DERECHO */}
-            <aside className="space-y-4">
-              {/* Fondo champagne, títulos verde, texto gris */}
-              <div className="p-4 rounded-2xl bg-pastelChampagne">
-                <div className="text-sm font-bold text-loreverde">Recomendación inteligente</div>
-                <div className="mt-2 text-sm text-gray-700">{recommendation || "Sin recomendaciones."}</div>
-              </div>
+           <aside className="space-y-4">
+  {/* Recomendación inteligente */}
+  <div className="card p-4 rounded-2xl bg-pastelChampagne">
+    <div className="text-sm font-bold text-loreverde">
+      Recomendación inteligente
+    </div>
+    <div className="mt-2 text-sm text-gray-800 font-medium">
+      {recommendation || "Sin recomendaciones por el momento."}
+    </div>
+  </div>
 
-              <div className="p-4 rounded-2xl bg-pastelChampagne">
-                <div className="text-sm font-bold text-loreverde">Calendario: mejores precios</div>
-                <div className="mt-3 space-y-2 text-gray-700">
-                  {calendar.length === 0 ? (
-                    <div className="text-sm">No hay datos de calendario.</div>
-                  ) : (
-                    calendar.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <div className="text-sm">
-                          {c.month} • <span className="font-medium">{c.bestDay}</span>
-                        </div>
-                        <div className="text-sm font-bold">{c.price}</div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+  {/* Calendario de mejores precios */}
+  <div className="card p-4 rounded-2xl bg-pastelChampagne">
+    <div className="text-sm font-bold text-loreverde">
+      Calendario: mejores precios
+    </div>
+    <div className="mt-3 space-y-2 text-gray-800 font-medium">
+      {calendar.length === 0 ? (
+        <div className="text-sm">No hay datos de calendario.</div>
+      ) : (
+        calendar.map((c, i) => (
+          <div key={i} className="flex items-center justify-between">
+            <div className="text-sm">
+              {c.month} • <span className="font-medium">{c.bestDay}</span>
+            </div>
+            <div className="text-sm font-bold">{c.price}</div>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
 
-              <div className="p-4 rounded-2xl bg-pastelChampagne">
-                <div className="text-sm font-bold text-loreverde">Ofertas último momento</div>
-                <div className="mt-3 text-sm text-gray-700">Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.</div>
-              </div>
+  {/* Ofertas último momento */}
+  <div className="card p-4 rounded-2xl bg-pastelChampagne">
+    <div className="text-sm font-bold text-loreverde">
+      Ofertas último momento
+    </div>
+    <div className="mt-3 text-sm text-gray-800 font-medium">
+      Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.
+    </div>
+  </div>
 
-              <div className="p-4 rounded-2xl bg-pastelChampagne">
-                <div className="text-sm font-bold text-loreverde">Opciones de pago</div>
-                <div className="mt-3 text-sm text-gray-700">Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).</div>
-              </div>
-            </aside>
+  {/* Opciones de pago */}
+  <div className="card p-4 rounded-2xl bg-pastelChampagne">
+    <div className="text-sm font-bold text-loreverde">
+      Opciones de pago
+    </div>
+    <div className="mt-3 text-sm text-gray-800 font-medium">
+      Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).
+    </div>
+  </div>
+</aside>
+
           </div>
         </section>
       </main>
