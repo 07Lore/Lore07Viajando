@@ -256,23 +256,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-fondoOscuro text-champagneText font-comic">
-      <header className="max-w-6xl mx-auto p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-pastelAguamarina p-3">
-              <AirplaneIcon className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-extrabold text-naranjaCard">Lore07 Viajando</h1>
-              <div className="text-sm font-semibold text-champagneText">Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).</div>
-            </div>
-          </div>
+      <header className="max-w-6xl mx-auto">
+  <div className="header-row">
+    <div style={{display: 'flex', gap: 12, alignItems:'center'}}>
+      <div className="logo"> {/* tu logo */} </div>
 
-          <div className="hidden md:block">
-            <span className="px-4 py-2 rounded-full bg-pastelChampagne font-bold text-naranjaCard">Soporte: info@lore07viajando.com</span>
-          </div>
-        </div>
-      </header>
+      <div>
+        <h1 className="brand-title">Lore07Viajando</h1>          {/* 3) naranja */}
+        <div className="brand-subtitle">Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).</div> {/* 6) negrita */}
+      </div>
+    </div>
+
+    <div className="header-support">
+      <span className="header-support-text">Soporte: info@lore07viajando.com</span>  {/* 7) naranja negrita */}
+    </div>
+  </div>
+</header>
+
 
       <main className="max-w-6xl mx-auto p-6 space-y-6">
         <SearchForm onSearch={handleSearch} />
