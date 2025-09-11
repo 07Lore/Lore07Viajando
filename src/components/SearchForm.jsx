@@ -1,55 +1,88 @@
 import React, { useState } from "react";
 
 export default function SearchForm({ onSearch }) {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("EZE");
+  const [to, setTo] = useState("MAD");
   const [date, setDate] = useState("");
   const [airline, setAirline] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSearch({ from: from || "EZE", to: to || "MAD", date: date || new Date().toISOString().slice(0,10), airline });
+    onSearch({ from, to, date, airline });
+  }
+
+  function handleLastMinute() {
+    onSearch({ quick: true });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl p-4 md:p-6 bg-gray-800 text-pastelChampagne">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div>
-          <label className="text-sm font-medium opacity-90">Origen (IATA o ciudad)</label>
-          <input value={from} onChange={(e)=>setFrom(e.target.value)}
-                 placeholder="EZE, AEP, BUE o ciudad"
-                 className="mt-1 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-400" />
-        </div>
-        <div>
-          <label className="text-sm font-medium opacity-90">Destino</label>
-          <input value={to} onChange={(e)=>setTo(e.target.value)}
-                 placeholder="MAD, NYC, MIA"
-                 className="mt-1 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-400"/>
-        </div>
-        <div>
-          <label className="text-sm font-medium opacity-90">Fecha</label>
-          <input type="date" value={date} onChange={(e)=>setDate(e.target.value)}
-                 className="mt-1 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-white" />
-        </div>
-        <div>
-          <label className="text-sm font-medium opacity-90">Aerolínea (opcional)</label>
-          <input value={airline} onChange={(e)=>setAirline(e.target.value)}
-                 placeholder="KLM, IB, AA"
-                 className="mt-1 w-full rounded-md border border-gray-700 bg-gray-900 px-3 py-2 text-white placeholder-gray-400" />
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-gray-900 text-pastelChampagne rounded-2xl p-6 shadow-lg space-y-4"
+    >
+      {/* Origen */}
+      <div>
+        <label className="block text-loreverde font-bold mb-1">Origen</label>
+        <input
+          type="text"
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
+          className="w-full p-2 rounded-xl text-gray-900"
+          placeholder="Ej: EZE"
+        />
       </div>
 
-      <div className="mt-4 flex items-center gap-3">
-        <button type="submit" className="inline-flex items-center px-5 py-2 rounded-2xl bg-loreVerde text-white font-bold shadow">
+      {/* Destino */}
+      <div>
+        <label className="block text-loreverde font-bold mb-1">Destino</label>
+        <input
+          type="text"
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+          className="w-full p-2 rounded-xl text-gray-900"
+          placeholder="Ej: MAD"
+        />
+      </div>
+
+      {/* Fecha */}
+      <div>
+        <label className="block text-loreverde font-bold mb-1">Fecha</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="w-full p-2 rounded-xl text-gray-900"
+        />
+      </div>
+
+      {/* Aerolínea */}
+      <div>
+        <label className="block text-loreverde font-bold mb-1">Aerolínea</label>
+        <input
+          type="text"
+          value={airline}
+          onChange={(e) => setAirline(e.target.value)}
+          className="w-full p-2 rounded-xl text-gray-900"
+          placeholder="Ej: KLM"
+        />
+      </div>
+
+      {/* Botones */}
+      <div className="flex flex-col md:flex-row gap-3 mt-4">
+        <button
+          type="submit"
+          className="flex-1 px-6 py-3 rounded-2xl bg-loreverde text-pastelChampagne font-bold text-lg shadow-md hover:opacity-90 transition"
+        >
           Buscar vuelos
         </button>
 
-        <button type="button" onClick={() => onSearch({ quick: true })}
-                className="text-sm text-pastelChampagne/90 hover:underline">
+        <button
+          type="button"
+          onClick={handleLastMinute}
+          className="flex-1 px-6 py-3 rounded-2xl bg-orange-500 text-white font-bold text-lg shadow-md hover:opacity-90 transition"
+        >
           Ver ofertas último momento
         </button>
-
-        <div className="ml-auto text-sm opacity-80">Búsqueda inteligente: proponemos aeropuertos cercanos.</div>
       </div>
     </form>
   );
