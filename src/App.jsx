@@ -9,7 +9,7 @@ function simulateFetchFlights(params) {
     // simulamos delay
     setTimeout(() => {
       // Si se envía quick (ofertas último minuto) devolvemos un set reducido
-      if (params.quick) {
+      if (params && params.quick) {
         return resolve({
           flights: [
             {
@@ -33,8 +33,8 @@ function simulateFetchFlights(params) {
         });
       }
 
-      // Simulación: si destino es "NO" devolvemos vacío
-      if (params.to && params.to.toLowerCase() === "nope") {
+      // Simulación: si destino es "nope" devolvemos vacío
+      if (params && params.to && params.to.toLowerCase() === "nope") {
         return resolve({ flights: [], recommendedSave: null });
       }
 
@@ -45,10 +45,10 @@ function simulateFetchFlights(params) {
           price: 720,
           currency: "USD",
           airline: "KLM",
-          from: params.from || "EZE",
-          to: params.to || "MAD",
-          depart: `${params.date || "2025-10-10"} 10:00`,
-          arrive: `${params.date || "2025-10-10"} 22:00`,
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 10:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 22:00`,
           duration: "12h",
           cabin: "Economy",
           stopover: { time: "3h", city: "AMS" },
@@ -61,10 +61,10 @@ function simulateFetchFlights(params) {
           price: 980,
           currency: "USD",
           airline: "Air France",
-          from: params.from || "EZE",
-          to: params.to || "MAD",
-          depart: `${params.date || "2025-10-10"} 06:00`,
-          arrive: `${params.date || "2025-10-10"} 18:00`,
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 06:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 18:00`,
           duration: "12h",
           cabin: "Premium Economy",
           stopover: null,
@@ -77,10 +77,10 @@ function simulateFetchFlights(params) {
           price: 1600,
           currency: "USD",
           airline: "Iberia",
-          from: params.from || "EZE",
-          to: params.to || "MAD",
-          depart: `${params.date || "2025-10-10"} 09:00`,
-          arrive: `${params.date || "2025-10-10"} 21:00`,
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 09:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 21:00`,
           duration: "12h",
           cabin: "Business",
           stopover: null,
@@ -92,7 +92,7 @@ function simulateFetchFlights(params) {
 
       // Añadimos una pequeña lógica: si buscás una aerolínea concreta filtramos
       let flights = base;
-      if (params.airline) {
+      if (params && params.airline) {
         flights = base.filter(f => f.airline.toLowerCase().includes(params.airline.toLowerCase()));
       }
 
@@ -144,18 +144,22 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen p-4 md:p-8 bg-gray-900 text-pastelChampagne">
       <header className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-pastelAguamarina flex items-center justify-center text-white text-xl font-bold">✈️</div>
+            <div className="w-12 h-12 rounded-2xl bg-loreVerde flex items-center justify-center text-white text-xl font-bold">✈️</div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-800">Lore07 Viajando</h1>
-              <div className="text-sm text-gray-500">Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).</div>
+              <h1 className="text-2xl md:text-3xl font-extrabold">Lore07 Viajando</h1>
+              <div className="text-sm opacity-75">
+                Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).
+              </div>
             </div>
           </div>
           <div className="hidden md:block text-sm">
-            <span className="px-3 py-1 rounded-full bg-pastelChampagne border">Soporte: info@lore07viajando.com</span>
+            <span className="px-3 py-1 rounded-full bg-pastelChampagne text-gray-900 font-semibold">
+              Soporte: info@lore07viajando.com
+            </span>
           </div>
         </div>
       </header>
@@ -166,23 +170,23 @@ export default function App() {
         <section>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-4">
-              <div className="text-lg font-semibold">Resultados</div>
+              <div className="text-lg font-semibold text-pastelChampagne">Resultados</div>
 
               {loading && <Loader text="Buscando mejores opciones..." />}
 
               {error && (
-                <div className="card p-4 rounded-2xl border border-red-100 bg-red-50 text-red-800">
+                <div className="p-4 rounded-2xl bg-red-600 text-white">
                   {error}
                 </div>
               )}
 
               {!loading && !error && flights.length === 0 && (
-                <div className="card p-6 text-gray-600">
+                <div className="p-6 rounded-2xl bg-gray-800 text-pastelChampagne/70">
                   Los resultados aparecerán aquí. Probá con otro destino o buscá ofertas último momento.
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                 {flights.map(f => (
                   <FlightCard key={f.id} flight={f} />
                 ))}
@@ -190,16 +194,16 @@ export default function App() {
             </div>
 
             <aside className="space-y-4">
-              <div className="card p-4 rounded-2xl">
-                <div className="text-sm font-medium text-gray-700">Recomendación inteligente</div>
-                <div className="mt-2 text-sm text-gray-600">{recommendation || "Sin recomendaciones por el momento."}</div>
+              <div className="p-4 rounded-2xl bg-orange-500 text-pastelChampagne">
+                <div className="text-sm font-bold">Recomendación inteligente</div>
+                <div className="mt-2 text-sm">{recommendation || "Sin recomendaciones por el momento."}</div>
               </div>
 
-              <div className="card p-4 rounded-2xl">
-                <div className="text-sm font-medium text-gray-700">Calendario: mejores precios</div>
+              <div className="p-4 rounded-2xl bg-orange-500 text-pastelChampagne">
+                <div className="text-sm font-bold">Calendario: mejores precios</div>
                 <div className="mt-3 space-y-2">
                   {calendar.length === 0 ? (
-                    <div className="text-sm text-gray-500">No hay datos de calendario.</div>
+                    <div className="text-sm">No hay datos de calendario.</div>
                   ) : (
                     calendar.map((c, i) => (
                       <div key={i} className="flex items-center justify-between">
@@ -211,21 +215,21 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="card p-4 rounded-2xl">
-                <div className="text-sm font-medium text-gray-700">Ofertas último momento</div>
-                <div className="mt-3 text-sm text-gray-600">Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.</div>
+              <div className="p-4 rounded-2xl bg-orange-500 text-pastelChampagne">
+                <div className="text-sm font-bold">Ofertas último momento</div>
+                <div className="mt-3 text-sm">Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.</div>
               </div>
 
-              <div className="card p-4 rounded-2xl">
-                <div className="text-sm font-medium text-gray-700">Opciones de pago</div>
-                <div className="mt-3 text-sm text-gray-600">Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).</div>
+              <div className="p-4 rounded-2xl bg-orange-500 text-pastelChampagne">
+                <div className="text-sm font-bold">Opciones de pago</div>
+                <div className="mt-3 text-sm">Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).</div>
               </div>
             </aside>
           </div>
         </section>
       </main>
 
-      <footer className="max-w-6xl mx-auto mt-10 mb-8 text-center text-sm text-gray-500">
+      <footer className="max-w-6xl mx-auto mt-10 mb-8 text-center text-sm opacity-70 text-pastelChampagne">
         © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos simulados). Integraciones con APIs reales pueden añadirse.
       </footer>
     </div>
