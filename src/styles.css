@@ -1,1 +1,26 @@
-body { font-family: sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+
+:root{
+  --pastel-orange: #ffb07c;
+  --pastel-champagne: #f6ead6;
+  --pastel-aguamarina: #3fc1a9;
+  --lore-verde: #0fa087;
+  --card-radius: 16px;
+}
+
+html,body,#root{
+  height:100%;
+}
+
+body{
+  font-family: "Comic Neue", "Comic Sans MS", "Trebuchet MS", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
+  color: #1f2937;
+}
+
+/* Tiny helpers for the demo cards */
+.card {
+  border-radius: var(--card-radius);
+  background: white;
+  box-shadow: 0 6px 20px rgba(18,23,39,0.06);
+}
