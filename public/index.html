@@ -1,5 +1,34 @@
-<!DOCTYPE html>
-<html>
-  <head><title>React App</title></head>
-  <body><div id='root'></div></body>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lore07 Viajando</title>
+
+    <!-- Tailwind Play CDN (no requiere build) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind config (colores pastel) -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pastelOrange: '#ffb07c',
+              pastelChampagne: '#f6ead6',
+              pastelAguamarina: '#3fc1a9',
+              loreVerde: '#0fa087'
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Basic styles -->
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body class="antialiased bg-gray-50">
+    <div id="root"></div>
+    <!-- React bundle will be injected by react-scripts -->
+  </body>
 </html>
