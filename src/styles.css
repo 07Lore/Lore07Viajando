@@ -1,234 +1,214 @@
-/* =====================================================
-   src/styles.css
-   - Pegar tal cual en tu proyecto (ya importado desde index.js)
-   - Contiene variables, tipografía y reglas globales
-   ===================================================== */
+/* ============================
+   src/styles.css  (REEMPLAZA)
+   - Hecho para los 9 puntos que pediste.
+   - No toca la estructura HTML/JSX, aplica mediante clases.
+   ============================ */
 
-/* Fuente tipo "comic" (si querés otra, la cambiamos) */
+/* Fuente tipo "comic" parecida */
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
 
 :root{
-  --lore-verde: #20B486;          /* color "loreverde" */
-  --pastel-champagne: #F5E6D3;   /* fondo champagne */
-  --naranja-card: #FF7A3D;       /* naranja para cards */
-  --fondo-oscuro: #0f1720;       /* fondo general */
-  --champagne-text: #F5E6D3;     /* texto champagne */
-  --muted-gray: #9aa3a6;         /* gris descriptivo */
-  --card-radius: 18px;
+  --lore-verde: #20B486;          /* texto loreverde */
+  --pastel-champagne: #F5E6D3;    /* lado derecho */
+  --naranja-card: #FF7A3D;        /* color naranja de cards */
+  --fondo-oscuro: #0f1720;        /* fondo general (oscuro) */
+  --champagne-text: #F5E6D3;      /* texto champagne */
+  --muted-gray: #9aa3a6;          /* gris descriptivo */
+  --card-radius: 16px;
   --card-padding: 18px;
 }
 
-/* ===== Global ===== */
+/* ===== GLOBAL ===== */
 * { box-sizing: border-box; }
-html,body,#root { height: 100%; }
+html,body,#root { height:100%; }
 body{
   margin:0;
   min-height:100%;
-  background: var(--fondo-oscuro);
+  background: var(--fondo-oscuro);     /* => fondo oscuro (no blanco) */
   color: #e6eef0;
+  font-family: "Comic Neue", "Comic Sans MS", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Clase para texto tipo Comic (la usás en contenedores que quieras "cómic") */
-.font-comic { font-family: "Comic Neue", "Comic Sans MS", "Chalkboard", cursive; }
-
-/* ===== Header / título / subtítulo ===== */
-header { padding: 18px 0; }
-header h1 {
-  /* 3) título "Lore07Viajando" en naranja */
-  color: var(--naranja-card) !important;
-  font-weight: 800 !important;
+/* ===== HEADER ===== */
+.header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.brand-title {
+  /* 3) Lore07Viajando en naranja */
+  color: var(--naranja-card);
+  font-weight:800;
+  font-size:1.8rem;
   margin:0;
 }
-header .subtitulo {
-  /* 6) "Tu app para encontrar vuelos..." en negrita */
-  color: #cfe6e2;  /* champagne tenue sobre fondo oscuro */
+.brand-subtitle {
+  /* 6) "Tu app..." en negrita (color ya ok) */
+  color: #cfe6e2;
   font-weight:700;
   margin-top:6px;
-}
-
-/* Soporte (top-right) */
-.header-support {
-  background: transparent;
-  padding:6px 12px;
-  border-radius:999px;
-  display:inline-block;
-}
-.header-support .text {
-  color: var(--naranja-card) !important;  /* 7) soporte en naranja negrita */
-  font-weight:700;
-}
-
-/* ===== Formulario de búsqueda =====
-   - Inputs: label en loreverde negrita
-   - Valores (EZE, MAD, fecha, aerolínea) en champagne y negrita
-*/
-.search-form { width:100%; padding:20px; border-radius:14px; background: rgba(255,255,255,0.02); }
-
-/* Labels (Origen/Destino/Fecha/Aerolínea) */
-.search-form label,
-.search-form .field-label {
-  color: var(--lore-verde) !important;  /* 4) labels loreverde negrita */
-  font-weight:700;
   font-size:0.95rem;
 }
 
-/* Inputs / placeholders */
+/* 7) Soporte: texto naranja negrita */
+.header-support-text {
+  color: var(--naranja-card);
+  font-weight:800;
+  font-size:0.95rem;
+}
+
+/* ===== SEARCH FORM ===== */
+/* contenedor claro pero oscuro (no blanco) */
+.search-form {
+  background: rgba(255,255,255,0.02);
+  padding:18px;
+  border-radius:14px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+/* 4) Labels (Origen/Destino/Fecha/Aerolínea) loreverde negrita */
+.field-label {
+  color: var(--lore-verde);
+  font-weight:800;
+  display:block;
+  font-size:0.95rem;
+}
+
+/* 5) Valores visibles (EZE, MAD, fecha...) champagne y negrita */
+.search-value {
+  color: var(--champagne-text);
+  font-weight:800;
+}
+
+/* inputs (visual) */
 .search-form input,
 .search-form select {
-  display:block;
-  width:100%;
-  padding:12px 14px;
-  border-radius:10px;
-  background: rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
   color: var(--champagne-text);
-  outline:none;
-  margin-top:8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  padding:10px 12px;
+  border-radius:10px;
 }
 
-/* Valores visibles (cuando se muestran como "pills" o texto) */
-.search-form .value-pill {
-  background: transparent;
-  color: var(--champagne-text) !important; /* 5) color champagne y negrita */
-  font-weight:700;
+/* 8) "ver ofertas último momento" y "búsqueda inteligente" letra más grande y en negrita */
+.search-hint {
+  color: var(--champagne-text);
+  font-weight:800;
+  font-size:1.02rem;
 }
 
-/* Botón principal "Buscar vuelos" */
+/* ===== BOTONES ===== */
+/* botón principal: fondo loreverde, texto champagne en negrita y un poco más grande (9) */
 .btn-lore {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+  background: var(--lore-verde);
+  color: var(--champagne-text);
   padding:10px 18px;
   border-radius:999px;
-  background: var(--lore-verde); /* loreverde */
-  color: white;
-  font-weight:700;
-  cursor:pointer;
+  font-weight:800;
+  font-size:1.05rem; /* un poco mas grande */
   border: none;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-}
-.btn-secondary {
-  color: var(--champagne-text);
-  font-weight:700; /* 9) Buscar / Comprar letra un poco más grande, champagne y negrita */
-  font-size:1.05rem;
+  cursor:pointer;
 }
 
-/* ===== Layout: resultados y sidebar ===== */
+/* botón secundario "Comprar" dentro card (texto champagne como pediste) */
+.buy-btn {
+  background: var(--lore-verde);
+  color: var(--champagne-text);
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:800;
+  border:none;
+}
+
+/* ===== GRID PRINCIPAL ===== */
 .main-grid {
   display:grid;
   grid-template-columns: 1fr 320px;
   gap:24px;
+  margin-top:20px;
 }
 
-/* ===== Tarjetas (cards) ===== */
-/* Estilo base para cards */
-.card {
-  border-radius: var(--card-radius);
-  padding: var(--card-padding);
-  box-shadow: 0 8px 24px rgba(2,6,12,0.6);
-}
+/* ===== RESULTADOS (LEFT) ===== */
+.results { display:grid; gap:16px; }
 
-/* Flight cards (izquierda): naranja con texto blanco,
-   y los bloques de "aerolínea / origen->dest / precio" en gris y negrita  */
-.results .card {
+/* Flight card base: naranja (mantener) */
+.flight-card.card {
   background: var(--naranja-card);
   color: white;
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 14px 30px rgba(2,6,12,0.6);
 }
 
-/* 2) dentro de la card: el bloque principal (aerolínea, ruta, precio) en gris del fondo (contraste) y en negrita */
-.results .card .card-head {
-  background: transparent;
-  color: #e6eef0;             /* color principal del texto (contrasta) */
-}
-.results .card .card-head .meta { 
-  color: #d9dadb;             /* gris claro para etiquetas tipo "Aerolínea" */
-  font-weight:700;            /* 2) poner etiquetas en negrita */
-}
-.results .card .card-head .route-price {
-  color: var(--fondo-oscuro); /* **este bloque "gris del fondo"** para resaltar (solicitud 2) */
-  font-weight:800;
-  background: rgba(255,255,255,0.12);
-  padding:10px;
-  display:inline-block;
+/* 2) El bloque donde aparece "KLM, EZE -> MAD, USD 720, Economy"
+     debe mostrarse con el gris del fondo y en negrita.
+     Aquí lo dejamos sin fondo (para contraste) y el texto en --muted-gray
+     y en negrita como pediste. */
+.flight-card .flight-meta {
+  color: var(--fondo-oscuro);  /* gris del fondo (oscuro) visible sobre naranja */
+  background: rgba(255,255,255,0.14); /* sutil bandeja clara para contraste */
+  padding:10px 12px;
   border-radius:10px;
+  font-weight:800; /* negrita */
+  display:inline-block;
 }
 
-/* Texto de etiquetas dentro de la card (Salida, Llegada, Duración, Stopover, Beneficios) - conservar colores y en negrita */
-.results .card .label {
-  color: #fff;
-  font-weight:700;
+/* etiquetas (Salida, Llegada, Duración, Stopover, Beneficios) conservar colores y ser negrita */
+.flight-card .label {
+  color: rgba(255,255,255,0.95); /* mantiene color claro */
+  font-weight:800;               /* en negrita */
+  font-size:0.95rem;
 }
-.results .card .value {
-  color: #f0f0f0;
-}
-
-/* "Comprar" botón dentro de cada card */
-.results .card .buy-btn {
-  background: var(--lore-verde);
-  color: white;
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-weight:700;
-  border: none;
-}
-
-/* ===== Sidebar cards (derecha) =====
-   1) fondo champagne,  titles loreverde negrita, descripcion gris del fondo
-*/
-aside .card {
-  background: var(--pastel-champagne);
-  color: var(--fondo-oscuro);
-  padding: 16px;
-}
-aside .card .card-title {
-  color: var(--lore-verde) !important; /* títulos loreverde negrita */
-  font-weight:800;
-  margin-bottom:6px;
-}
-aside .card .card-desc {
-  color: var(--muted-gray); /* descripción en gris del fondo */
+.flight-card .value {
+  color: rgba(255,255,255,0.92);
   font-weight:600;
 }
 
-/* ===== Texto grande y destacado: "ver ofertas último momento" y "búsqueda inteligente" ===== */
-/* 8) letra más grande y en negrita */
-.search-hint {
-  color: var(--champagne-text);
+/* STOP-OVER badge (si tenés pequeñas burbujas) */
+.flight-card .stopover-badge {
+  background: rgba(0,0,0,0.08);
+  color: rgba(255,255,255,0.95);
+  padding:6px 8px;
+  border-radius:8px;
+  font-weight:700;
+  display:inline-block;
+}
+
+/* ===== SIDEBAR (RIGHT) ===== */
+/* Cada tarjeta del lado derecho en champagne (1) */
+.sidebar-card.card {
+  background: var(--pastel-champagne);
+  color: var(--fondo-oscuro);
+  border-radius:14px;
+  padding:14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* 1) Titulo de cada sidebar-card: loreverde y negrita */
+.sidebar-card .card-title {
+  color: var(--lore-verde);
   font-weight:800;
-  font-size:1.05rem;
+  font-size:1rem;
+  margin-bottom:6px;
 }
 
-/* ===== Calendario (pequeños bloques) ===== */
-.calendar-item {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
+/* 1) descripcion: gris del fondo */
+.sidebar-card .card-desc {
+  color: var(--muted-gray);
+  font-weight:600;
+  font-size:0.95rem;
 }
 
-/* ===== Utilities / helpers ===== */
-.text-loreVerde { color: var(--lore-verde) !important; font-weight:700; }
-.text-champagne { color: var(--champagne-text) !important; font-weight:700; }
-.bg-pastelChampagne { background: var(--pastel-champagne) !important; }
-.bg-naranjaCard { background: var(--naranja-card) !important; color: white !important; }
-.font-bold { font-weight:700 !important; }
+/* ===== CALENDAR / RECOMMENDATIONS helpers ===== */
+.calendar-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; }
 
-/* ===== Loader / mensajes ===== */
-.loader {
-  padding: 18px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 12px;
-  text-align:center;
-  color: var(--champagne-text);
-}
+/* ===== UTILS ===== */
+.text-lore { color: var(--lore-verde); font-weight:800 !important; }
+.text-champ { color: var(--champagne-text); font-weight:800 !important; }
 
-/* ===== Responsivo básico ===== */
-@media (max-width: 980px) {
+/* ===== RESPONSIVE ===== */
+@media (max-width:980px){
   .main-grid { grid-template-columns: 1fr; }
-  .header-support { display:none; }
+  .header-support-text { display:none; }
   .btn-lore { width:100%; }
 }
