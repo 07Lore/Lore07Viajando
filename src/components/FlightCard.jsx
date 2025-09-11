@@ -2,58 +2,49 @@ import React from "react";
 
 export default function FlightCard({ flight }) {
   return (
-    <div className="bg-orange-500 text-white rounded-2xl p-4 shadow-lg">
-      {/* Encabezado de la card */}
-      <div className="mb-3">
-        <div className="text-lg font-bold text-gray-900">
-          {flight.airline} — {flight.from} → {flight.to}
-        </div>
-        <div className="text-md font-bold text-gray-900">
-          {flight.cabin} • {flight.price} {flight.currency}
-        </div>
+    <div className="rounded-2xl shadow-md p-4 bg-orange-500 text-white flex flex-col gap-3">
+      {/* Encabezado: aerolínea + ruta */}
+      <div className="text-gray-900 font-bold text-lg">
+        {flight.airline} • {flight.from} → {flight.to}
+      </div>
+
+      {/* Precio */}
+      <div className="text-2xl font-extrabold">
+        {flight.currency} {flight.price}
       </div>
 
       {/* Detalles */}
-      <div className="space-y-1 text-sm">
-        <div className="font-bold">
-          <span className="underline">Salida:</span> {flight.depart}
-        </div>
-        <div className="font-bold">
-          <span className="underline">Llegada:</span> {flight.arrive}
-        </div>
-        <div className="font-bold">
-          <span className="underline">Duración:</span> {flight.duration}
-        </div>
-
+      <div className="text-sm font-bold">
+        <p>Salida: {flight.depart}</p>
+        <p>Llegada: {flight.arrive}</p>
+        <p>Duración: {flight.duration}</p>
         {flight.stopover && (
-          <div className="font-bold">
-            <span className="underline">Stopover:</span> {flight.stopover.time} en {flight.stopover.city}
-          </div>
+          <p>
+            Stopover: {flight.stopover.city} ({flight.stopover.time})
+          </p>
         )}
-
-        {flight.benefits && (
-          <div className="font-bold">
-            <span className="underline">Beneficios:</span> {flight.benefits}
-          </div>
-        )}
-
-        <div className="font-bold">
-          <span className="underline">Opciones de pago:</span>{" "}
-          {flight.paymentOptions.join(", ")}
-        </div>
+        {flight.benefits && <p>Beneficios: {flight.benefits}</p>}
       </div>
+
+      {/* Cabina */}
+      <div className="italic font-bold text-sm">{flight.cabin}</div>
+
+      {/* Opciones de pago */}
+      {flight.paymentOptions && (
+        <div className="text-sm font-bold">
+          Opciones de pago: {flight.paymentOptions.join(", ")}
+        </div>
+      )}
 
       {/* Botón comprar */}
-      <div className="mt-4">
-        <a
-          href={flight.buyLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block text-center px-4 py-2 rounded-xl bg-loreverde text-pastelChampagne font-bold text-lg shadow-md hover:opacity-90 transition"
-        >
-          Comprar vuelo
-        </a>
-      </div>
+      <a
+        href={flight.buyLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 inline-block text-center bg-loreverde text-white font-bold px-4 py-2 rounded-xl hover:opacity-90 transition"
+      >
+        Comprar
+      </a>
     </div>
   );
 }
