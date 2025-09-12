@@ -1,214 +1,152 @@
-/* ============================
-   src/styles.css  (REEMPLAZA)
-   - Hecho para los 9 puntos que pediste.
-   - No toca la estructura HTML/JSX, aplica mediante clases.
-   ============================ */
+/* src/styles.css */
 
-/* Fuente tipo "comic" parecida */
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+/* Fuente tipo "comic" (fallbacks) */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
 
 :root{
-  --lore-verde: #20B486;          /* texto loreverde */
-  --pastel-champagne: #F5E6D3;    /* lado derecho */
-  --naranja-card: #FF7A3D;        /* color naranja de cards */
-  --fondo-oscuro: #0f1720;        /* fondo general (oscuro) */
-  --champagne-text: #F5E6D3;      /* texto champagne */
-  --muted-gray: #9aa3a6;          /* gris descriptivo */
-  --card-radius: 16px;
-  --card-padding: 18px;
+  --bg: #0f1724;           /* fondo oscuro */
+  --card-orange: #fb6a2c;  /* naranja de las cards */
+  --champagne: #f6e7d7;    /* champagne */
+  --lore-verde: #14b8a6;   /* color loreverde (teal) */
+  --muted-gray: #94a3b8;   /* gris para descripciones */
+  --card-text-dark: #071018; /* texto sobre champagne */
 }
 
-/* ===== GLOBAL ===== */
-* { box-sizing: border-box; }
-html,body,#root { height:100%; }
+/* reset y tipografía */
+html,body,#root{height:100%;}
 body{
   margin:0;
-  min-height:100%;
-  background: var(--fondo-oscuro);     /* => fondo oscuro (no blanco) */
-  color: #e6eef0;
-  font-family: "Comic Neue", "Comic Sans MS", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: "Baloo 2", "Comic Sans MS", "Comic Neue", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #e6eef2;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* ===== HEADER ===== */
-.header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-.brand-title {
-  /* 3) Lore07Viajando en naranja */
-  color: var(--naranja-card);
-  font-weight:800;
-  font-size:1.8rem;
-  margin:0;
-}
-.brand-subtitle {
-  /* 6) "Tu app..." en negrita (color ya ok) */
-  color: #cfe6e2;
-  font-weight:700;
-  margin-top:6px;
-  font-size:0.95rem;
-}
-
-/* 7) Soporte: texto naranja negrita */
-.header-support-text {
-  color: var(--naranja-card);
-  font-weight:800;
-  font-size:0.95rem;
-}
-
-/* ===== SEARCH FORM ===== */
-/* contenedor claro pero oscuro (no blanco) */
-.search-form {
+/* Formularios */
+.input {
   background: rgba(255,255,255,0.02);
-  padding:18px;
-  border-radius:14px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-
-/* 4) Labels (Origen/Destino/Fecha/Aerolínea) loreverde negrita */
-.field-label {
-  color: var(--lore-verde);
-  font-weight:800;
-  display:block;
-  font-size:0.95rem;
-}
-
-/* 5) Valores visibles (EZE, MAD, fecha...) champagne y negrita */
-.search-value {
-  color: var(--champagne-text);
-  font-weight:800;
-}
-
-/* inputs (visual) */
-.search-form input,
-.search-form select {
-  background: rgba(255,255,255,0.02);
-  color: var(--champagne-text);
   border: 1px solid rgba(255,255,255,0.04);
-  padding:10px 12px;
-  border-radius:10px;
+  color: #e6eef2;
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  width:100%;
 }
 
-/* 8) "ver ofertas último momento" y "búsqueda inteligente" letra más grande y en negrita */
-.search-hint {
-  color: var(--champagne-text);
-  font-weight:800;
-  font-size:1.02rem;
-}
-
-/* ===== BOTONES ===== */
-/* botón principal: fondo loreverde, texto champagne en negrita y un poco más grande (9) */
-.btn-lore {
+/* Botones */
+.btn-primary {
   background: var(--lore-verde);
-  color: var(--champagne-text);
-  padding:10px 18px;
-  border-radius:999px;
-  font-weight:800;
-  font-size:1.05rem; /* un poco mas grande */
+  color: var(--champagne);
+  padding: .8rem 1.2rem;
+  border-radius: .75rem;
+  font-weight:700;
+  font-size:1.05rem;
+  border: none;
+  cursor:pointer;
+  box-shadow: 0 6px 16px rgba(20,184,166,0.12);
+}
+.btn-alt {
+  background: var(--card-orange);
+  color: var(--card-text-dark);
+  padding: .8rem 1.2rem;
+  border-radius: .75rem;
+  font-weight:700;
+  font-size:1.05rem;
   border: none;
   cursor:pointer;
 }
 
-/* botón secundario "Comprar" dentro card (texto champagne como pediste) */
-.buy-btn {
-  background: var(--lore-verde);
-  color: var(--champagne-text);
-  padding:8px 14px;
-  border-radius:12px;
-  font-weight:800;
-  border:none;
+/* Card general */
+.card {
+  border-radius: 1rem;
 }
 
-/* ===== GRID PRINCIPAL ===== */
-.main-grid {
-  display:grid;
-  grid-template-columns: 1fr 320px;
-  gap:24px;
-  margin-top:20px;
+/* Flight card orange */
+.flight-card {
+  background: var(--card-orange);
+  color: #fff;
+  border-radius: 1rem;
+  padding: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-/* ===== RESULTADOS (LEFT) ===== */
-.results { display:grid; gap:16px; }
-
-/* Flight card base: naranja (mantener) */
-.flight-card.card {
-  background: var(--naranja-card);
-  color: white;
-  border-radius: var(--card-radius);
-  padding: var(--card-padding);
-  box-shadow: 0 14px 30px rgba(2,6,12,0.6);
+/* Area gris (airline+route+price) - la pediste en gris de fondo y negrita */
+.flight-card .flight-head {
+  background: rgba(7,16,24,0.95); /* gris oscuro del fondo */
+  color: var(--champagne);
+  font-weight: 800;
+  padding: 0.9rem;
+  border-radius: 0.75rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* 2) El bloque donde aparece "KLM, EZE -> MAD, USD 720, Economy"
-     debe mostrarse con el gris del fondo y en negrita.
-     Aquí lo dejamos sin fondo (para contraste) y el texto en --muted-gray
-     y en negrita como pediste. */
-.flight-card .flight-meta {
-  color: var(--fondo-oscuro);  /* gris del fondo (oscuro) visible sobre naranja */
-  background: rgba(255,255,255,0.14); /* sutil bandeja clara para contraste */
-  padding:10px 12px;
-  border-radius:10px;
-  font-weight:800; /* negrita */
-  display:inline-block;
+/* labels en negrita con color naranja (mantener colores pero en negrita) */
+.label-strong { font-weight:700; color: #fff9f4; }
+
+/* Right column cards (champagne) */
+.side-card {
+  background: var(--champagne);
+  color: var(--card-text-dark);
+  padding: 1rem;
+  border-radius: .9rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
-/* etiquetas (Salida, Llegada, Duración, Stopover, Beneficios) conservar colores y ser negrita */
-.flight-card .label {
-  color: rgba(255,255,255,0.95); /* mantiene color claro */
-  font-weight:800;               /* en negrita */
-  font-size:0.95rem;
-}
-.flight-card .value {
-  color: rgba(255,255,255,0.92);
-  font-weight:600;
-}
-
-/* STOP-OVER badge (si tenés pequeñas burbujas) */
-.flight-card .stopover-badge {
-  background: rgba(0,0,0,0.08);
-  color: rgba(255,255,255,0.95);
-  padding:6px 8px;
-  border-radius:8px;
-  font-weight:700;
-  display:inline-block;
-}
-
-/* ===== SIDEBAR (RIGHT) ===== */
-/* Cada tarjeta del lado derecho en champagne (1) */
-.sidebar-card.card {
-  background: var(--pastel-champagne);
-  color: var(--fondo-oscuro);
-  border-radius:14px;
-  padding:14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-}
-
-/* 1) Titulo de cada sidebar-card: loreverde y negrita */
-.sidebar-card .card-title {
+/* Titles in side-card (loreverde, bold) */
+.side-card .title {
   color: var(--lore-verde);
   font-weight:800;
-  font-size:1rem;
-  margin-bottom:6px;
 }
 
-/* 1) descripcion: gris del fondo */
-.sidebar-card .card-desc {
+/* Side card description muted */
+.side-card .desc {
   color: var(--muted-gray);
-  font-weight:600;
-  font-size:0.95rem;
 }
 
-/* ===== CALENDAR / RECOMMENDATIONS helpers ===== */
-.calendar-item { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; }
-
-/* ===== UTILS ===== */
-.text-lore { color: var(--lore-verde); font-weight:800 !important; }
-.text-champ { color: var(--champagne-text); font-weight:800 !important; }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:980px){
-  .main-grid { grid-template-columns: 1fr; }
-  .header-support-text { display:none; }
-  .btn-lore { width:100%; }
+/* Header: title orange */
+.app-title{
+  color: var(--card-orange);
+  font-weight:800;
+  font-size:1.75rem;
 }
+
+/* Inputs display (values champagne bold as requested) */
+.input-value {
+  color: var(--card-text-dark);
+  font-weight:700;
+}
+
+/* Support badge */
+.support-badge{
+  background: var(--champagne);
+  color: var(--card-orange);
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  font-weight:800;
+}
+
+/* Result grid */
+.results-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr 360px;
+  gap:1.25rem;
+}
+.results-grid .left { grid-column: 1 / span 2; }
+@media(max-width:1000px){
+  .results-grid{ grid-template-columns: 1fr; }
+  .results-grid .left{ grid-column: auto; }
+}
+
+/* Misc */
+.small-muted { color: var(--muted-gray); }
+.bold { font-weight:700; }
+
+/* Ajustes específicos pedidos */
+/* - etiquetas (Origen/Destino/Fecha/Aerolínea) */
+.form-label{ color: var(--lore-verde); font-weight:800; margin-bottom:.45rem; display:block; }
+
+/* - values (EZE, MAD, fecha, KLM) champagne bold */
+.form-value { color: var(--card-text-dark); font-weight:800; }
+
