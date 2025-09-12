@@ -184,14 +184,14 @@ export default function App() {
 
             <aside className="space-y-4">
   <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-bold text-base">Tips</div>
+    <div className="text-loreverde font-extrabold text-lg">Tips</div>
     <div className="mt-2 text-sm text-gray-800">
       {recommendation || "Sin tips por el momento."}
     </div>
   </div>
 
   <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-bold text-base">Calendario con Mejores Precios</div>
+    <div className="text-loreverde font-extrabold text-lg">Calendario con Mejores Precios</div>
     <div className="mt-3 space-y-2 text-sm text-gray-800">
       {calendar.length === 0 ? (
         <div>No hay datos de calendario.</div>
@@ -207,19 +207,20 @@ export default function App() {
   </div>
 
   <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-bold text-base">Oportunidades en Premium/Business</div>
+    <div className="text-loreverde font-extrabold text-lg">Oportunidades en Premium/Business</div>
     <div className="mt-2 text-sm text-gray-800">
       Encontrá upgrades y tarifas especiales para viajar con más comodidad.
     </div>
   </div>
 
   <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-bold text-base">Próximamente</div>
+    <div className="text-loreverde font-extrabold text-lg">Próximamente</div>
     <div className="mt-2 text-sm text-gray-800">
       Espacio reservado para una sección importante que agregaremos.
     </div>
   </div>
 </aside>
+
 
           </div>
         </section>
