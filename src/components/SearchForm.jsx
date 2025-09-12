@@ -1,3 +1,4 @@
+// src/components/SearchForm.jsx
 import React, { useState } from "react";
 
 export default function SearchForm({ onSearch }) {
@@ -6,83 +7,41 @@ export default function SearchForm({ onSearch }) {
   const [date, setDate] = useState("");
   const [airline, setAirline] = useState("");
 
-  function handleSubmit(e) {
+  function submit(e){
     e.preventDefault();
     onSearch({ from, to, date, airline });
   }
-
-  function handleLastMinute() {
-    onSearch({ quick: true });
+  function quick(e){
+    e.preventDefault();
+    onSearch({ from, to, date, airline, quick: true });
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-gray-900 text-pastelChampagne rounded-2xl p-6 shadow-lg space-y-4"
-    >
-      {/* Origen */}
-      <div>
-        <label className="block text-loreverde font-bold mb-1">Origen</label>
-        <input
-          type="text"
-          value={from}
-          onChange={(e) => setFrom(e.target.value)}
-          className="w-full p-2 rounded-xl text-gray-900"
-          placeholder="Ej: EZE"
-        />
+    <form onSubmit={submit} className="card" style={{padding:18, borderRadius:16, background:"rgba(255,255,255,0.02)", marginBottom:18}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 220px 240px", gap:12, alignItems:"end"}}>
+        <div>
+          <label className="form-label">Origen</label>
+          <input className="input" value={from} onChange={(e)=>setFrom(e.target.value)} placeholder="EZE, AEP, BUE o ciudad"/>
+        </div>
+        <div>
+          <label className="form-label">Destino</label>
+          <input className="input" value={to} onChange={(e)=>setTo(e.target.value)} placeholder="MAD, NYC, MIA"/>
+        </div>
+        <div>
+          <label className="form-label">Fecha</label>
+          <input className="input" value={date} onChange={(e)=>setDate(e.target.value)} placeholder="dd/mm/yyyy"/>
+        </div>
+        <div>
+          <label className="form-label">Aerolínea (opcional)</label>
+          <input className="input" value={airline} onChange={(e)=>setAirline(e.target.value)} placeholder="KLM, IB, AA"/>
+        </div>
       </div>
 
-      {/* Destino */}
-      <div>
-        <label className="block text-loreverde font-bold mb-1">Destino</label>
-        <input
-          type="text"
-          value={to}
-          onChange={(e) => setTo(e.target.value)}
-          className="w-full p-2 rounded-xl text-gray-900"
-          placeholder="Ej: MAD"
-        />
-      </div>
+      <div style={{display:"flex",gap:12,marginTop:14,alignItems:"center"}}>
+        <button type="submit" className="btn-primary" style={{fontSize:16}}> <span style={{color:"var(--champagne)", fontWeight:800}}>Buscar vuelos</span></button>
+        <button onClick={quick} className="btn-alt" style={{fontSize:16}}> <span style={{color:"var(--card-text-dark)", fontWeight:800}}>Ver ofertas último momento</span></button>
 
-      {/* Fecha */}
-      <div>
-        <label className="block text-loreverde font-bold mb-1">Fecha</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full p-2 rounded-xl text-gray-900"
-        />
-      </div>
-
-      {/* Aerolínea */}
-      <div>
-        <label className="block text-loreverde font-bold mb-1">Aerolínea</label>
-        <input
-          type="text"
-          value={airline}
-          onChange={(e) => setAirline(e.target.value)}
-          className="w-full p-2 rounded-xl text-gray-900"
-          placeholder="Ej: KLM"
-        />
-      </div>
-
-      {/* Botones */}
-      <div className="flex flex-col md:flex-row gap-3 mt-4">
-        <button
-          type="submit"
-          className="flex-1 px-6 py-3 rounded-2xl bg-loreverde text-pastelChampagne font-bold text-lg shadow-md hover:opacity-90 transition"
-        >
-          Buscar vuelos
-        </button>
-
-        <button
-          type="button"
-          onClick={handleLastMinute}
-          className="flex-1 px-6 py-3 rounded-2xl bg-orange-500 text-white font-bold text-lg shadow-md hover:opacity-90 transition"
-        >
-          Ver ofertas último momento
-        </button>
+        <div style={{marginLeft:"auto"}} className="small-muted bold">Búsqueda inteligente: proponemos aeropuertos cercanos.</div>
       </div>
     </form>
   );
