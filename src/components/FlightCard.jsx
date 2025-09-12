@@ -1,72 +1,56 @@
 import React from "react";
 
 export default function FlightCard({ flight }) {
-  if (!flight) return null;
-
   return (
-    <div className="bg-[#FF6B00] rounded-2xl p-6 shadow-md text-base text-[#222] flex flex-col gap-3">
-      {/* Aerolínea + Precio */}
-      <div className="text-[#F5EBDD] font-extrabold text-2xl flex justify-between items-center">
-        <span>{flight.airline}</span>
-        <span>USD {flight.price}</span>
+    <div className="p-5 rounded-2xl bg-orange-500 text-gray-900 shadow-lg">
+      {/* Aerolínea y Precio */}
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-xl font-extrabold text-champagne">{flight.airline}</h3>
+        <div className="text-xl font-extrabold text-champagne">
+          {flight.currency} {flight.price}
+        </div>
       </div>
 
-      {/* Clase de cabina */}
-      <div className="text-[#F5EBDD] font-bold text-lg mb-3">
-        {flight.cabin}
-      </div>
+      {/* Cabina */}
+      <div className="text-champagne font-bold mb-3">{flight.cabin || "—"}</div>
 
-      {/* Salida */}
-      <div className="flex justify-between">
-        <span className="font-bold text-gray-900">Salida:</span>
-        <span className="text-gray-900">{flight.depart}</span>
-      </div>
-
-      {/* Llegada */}
-      <div className="flex justify-between">
-        <span className="font-bold text-gray-900">Llegada:</span>
-        <span className="text-gray-900">{flight.arrive}</span>
-      </div>
-
-      {/* Duración */}
-      <div className="flex justify-between">
-        <span className="font-bold text-gray-900">Duración:</span>
-        <span className="text-gray-900">{flight.duration}</span>
-      </div>
-
-      {/* Escala (stopover) */}
-      {flight.stopover && (
-        <div className="flex justify-between">
-          <span className="font-bold text-gray-900">Stopover:</span>
-          <span className="text-gray-900">
-            {flight.stopover.time} en {flight.stopover.city}
+      {/* Detalles */}
+      <div className="space-y-1 text-sm">
+        <div>
+          <span className="font-bold text-gray-800">Salida:</span>{" "}
+          <span>{flight.depart || "—"}</span>
+        </div>
+        <div>
+          <span className="font-bold text-gray-800">Llegada:</span>{" "}
+          <span>{flight.arrive || "—"}</span>
+        </div>
+        <div>
+          <span className="font-bold text-gray-800">Duración:</span>{" "}
+          <span>{flight.duration || "—"}</span>
+        </div>
+        <div>
+          <span className="font-bold text-gray-800">Stopover:</span>{" "}
+          <span>
+            {flight.stopover
+              ? `${flight.stopover.time} en ${flight.stopover.city}`
+              : "—"}
           </span>
         </div>
-      )}
-
-      {/* Beneficios */}
-      {flight.benefits && (
-        <div className="flex justify-between">
-          <span className="font-bold text-gray-900">Beneficios:</span>
-          <span className="text-gray-900">{flight.benefits}</span>
+        <div>
+          <span className="font-bold text-gray-800">Beneficios:</span>{" "}
+          <span>{flight.benefits || "—"}</span>
         </div>
-      )}
-
-      {/* Opciones de pago */}
-      {flight.paymentOptions && (
-        <div className="flex justify-between">
-          <span className="font-bold text-gray-900">Opciones de pago:</span>
-          <span className="text-gray-900">{flight.paymentOptions.join(" • ")}</span>
+        <div>
+          <span className="font-bold text-gray-800">Opciones de pago:</span>{" "}
+          <span>{flight.paymentOptions?.join(" · ") || "—"}</span>
         </div>
-      )}
+      </div>
 
-      {/* Botón Comprar */}
-      <div className="mt-5">
+      {/* Botón */}
+      <div className="mt-4">
         <a
-          href={flight.buyLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center px-5 py-3 rounded-lg bg-emerald-500 font-bold text-[#F5EBDD] hover:bg-emerald-600 transition text-lg"
+          href={flight.buyLink || "#"}
+          className="block w-full py-2 rounded-xl text-center font-bold bg-emerald-300 text-gray-900 hover:bg-emerald-400"
         >
           Comprar
         </a>
