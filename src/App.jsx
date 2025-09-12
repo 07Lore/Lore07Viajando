@@ -145,7 +145,10 @@ export default function App() {
           <div style={{width:54,height:54,borderRadius:14,background:"var(--lore-verde)",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--champagne)",fontSize:22,fontWeight:800}}>✈️</div>
           <div>
             <div className="app-title">Lore07 Viajando</div>
-            <div style={{color:"var(--muted-gray)",fontWeight:700}}>Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).</div>
+            <div style={{color:"var(--champagne)", fontWeight:800}}>
+  Tu App de Vuelos Inteligente
+</div>
+
           </div>
         </div>
 
