@@ -1,56 +1,76 @@
-// src/components/FlightCard.jsx
 import React from "react";
 
 export default function FlightCard({ flight }) {
+  if (!flight) return null;
+
   return (
-    <article className="flight-card card">
-      {/* Head: airline/route + price area (gris oscuro, champagne bold) */}
-      <div className="flight-head" style={{marginBottom:12}}>
-        <div>
-          <div style={{fontSize:12,opacity:.9}}>Aerolínea</div>
-          <div style={{fontSize:18}} className="form-value">{flight.airline} — {flight.from} → {flight.to}</div>
-        </div>
-
-        <div style={{textAlign:"right"}}>
-          <div style={{fontSize:12,opacity:.95}}>Precio</div>
-          <div style={{fontSize:20, fontWeight:800}} className="form-value">{flight.currency} {flight.price}</div>
-          <div style={{fontSize:12, marginTop:4}} className="small-muted">{flight.cabin}</div>
-        </div>
+    <div className="bg-[#FF6B00] rounded-2xl p-5 shadow-md text-sm text-[#222] flex flex-col gap-2">
+      {/* Aerolínea + Precio */}
+      <div className="text-[#F5EBDD] font-extrabold text-xl flex justify-between items-center">
+        <span>{flight.airline}</span>
+        <span>USD {flight.price}</span>
       </div>
 
-      {/* Details: labels bold but keep color theme */}
-      <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
-        <div style={{flex:"1 1 320px"}}>
-          <div className="label-strong">Salida:</div>
-          <div className="small-muted" style={{marginBottom:8}}>{flight.depart}</div>
-
-          <div className="label-strong">Llegada:</div>
-          <div className="small-muted" style={{marginBottom:8}}>{flight.arrive}</div>
-
-          <div className="label-strong">Duración:</div>
-          <div className="small-muted" style={{marginBottom:8}}>{flight.duration}</div>
-
-          {flight.stopover && (
-            <>
-              <div className="label-strong">Stopover:</div>
-              <div className="small-muted" style={{marginBottom:8}}>{flight.stopover.time} en {flight.stopover.city}</div>
-            </>
-          )}
-
-          {flight.benefits && (
-            <>
-              <div className="label-strong">Beneficios:</div>
-              <div className="small-muted" style={{marginBottom:8}}>{flight.benefits}</div>
-            </>
-          )}
-
-          <div style={{marginTop:8}} className="small-muted"><span className="label-strong">Opciones de pago:</span> { (flight.paymentOptions||[]).join(" · ") }</div>
-        </div>
-
-        <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"flex-end",minWidth:180,gap:12}}>
-          <a className="btn-primary" href={flight.buyLink} target="_blank" rel="noreferrer">Comprar</a>
-        </div>
+      {/* Clase de cabina */}
+      <div className="text-[#F5EBDD] font-bold text-base mb-2">
+        {flight.cabin}
       </div>
-    </article>
+
+      {/* Salida */}
+      <div className="flex justify-between">
+        <span className="font-bold text-gray-900">Salida:</span>
+        <span className="text-gray-900">{flight.depart}</span>
+      </div>
+
+      {/* Llegada */}
+      <div className="flex justify-between">
+        <span className="font-bold text-gray-900">Llegada:</span>
+        <span className="text-gray-900">{flight.arrive}</span>
+      </div>
+
+      {/* Duración */}
+      <div className="flex justify-between">
+        <span className="font-bold text-gray-900">Duración:</span>
+        <span className="text-gray-900">{flight.duration}</span>
+      </div>
+
+      {/* Escala (stopover) */}
+      {flight.stopover && (
+        <div className="flex justify-between">
+          <span className="font-bold text-gray-900">Stopover:</span>
+          <span className="text-gray-900">
+            {flight.stopover.time} en {flight.stopover.city}
+          </span>
+        </div>
+      )}
+
+      {/* Beneficios */}
+      {flight.benefits && (
+        <div className="flex justify-between">
+          <span className="font-bold text-gray-900">Beneficios:</span>
+          <span className="text-gray-900">{flight.benefits}</span>
+        </div>
+      )}
+
+      {/* Opciones de pago */}
+      {flight.paymentOptions && (
+        <div className="flex justify-between">
+          <span className="font-bold text-gray-900">Opciones de pago:</span>
+          <span className="text-gray-900">{flight.paymentOptions.join(" • ")}</span>
+        </div>
+      )}
+
+      {/* Botón Comprar */}
+      <div className="mt-4">
+        <a
+          href={flight.buyLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center px-4 py-2 rounded-lg bg-emerald-500 font-bold text-[#F5EBDD] hover:bg-emerald-600 transition"
+        >
+          Comprar
+        </a>
+      </div>
+    </div>
   );
 }
