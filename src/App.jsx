@@ -182,38 +182,45 @@ export default function App() {
               </div>
             </div>
 
-            <aside style={{display:"flex",flexDirection:"column",gap:14}}>
-              <div className="side-card">
-                <div className="title">Recomendación inteligente</div>
-                <div className="desc" style={{marginTop:8}}>{recommendation || "Sin recomendaciones por el momento."}</div>
-              </div>
+            <aside className="space-y-4">
+  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="text-loreverde font-bold text-base">Tips</div>
+    <div className="mt-2 text-sm text-gray-800">
+      {recommendation || "Sin tips por el momento."}
+    </div>
+  </div>
 
-              <div className="side-card">
-                <div className="title">Calendario: mejores precios</div>
-                <div style={{marginTop:8}}>
-                  {calendar.length === 0 ? (
-                    <div className="desc">No hay datos de calendario.</div>
-                  ) : (
-                    calendar.map((c,i)=>(
-                      <div key={i} style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
-                        <div style={{color:"var(--muted-gray)"}}>{c.month} • <span className="bold">{c.bestDay}</span></div>
-                        <div className="bold">{c.price}</div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="text-loreverde font-bold text-base">Calendario con Mejores Precios</div>
+    <div className="mt-3 space-y-2 text-sm text-gray-800">
+      {calendar.length === 0 ? (
+        <div>No hay datos de calendario.</div>
+      ) : (
+        calendar.map((c, i) => (
+          <div key={i} className="flex items-center justify-between">
+            <div>{c.month} • <span className="font-medium">{c.bestDay}</span></div>
+            <div className="font-bold">{c.price}</div>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
 
-              <div className="side-card">
-                <div className="title">Ofertas último momento</div>
-                <div className="desc" style={{marginTop:8}}>Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.</div>
-              </div>
+  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="text-loreverde font-bold text-base">Oportunidades en Premium/Business</div>
+    <div className="mt-2 text-sm text-gray-800">
+      Encontrá upgrades y tarifas especiales para viajar con más comodidad.
+    </div>
+  </div>
 
-              <div className="side-card">
-                <div className="title">Opciones de pago</div>
-                <div className="desc" style={{marginTop:8}}>Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).</div>
-              </div>
-            </aside>
+  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="text-loreverde font-bold text-base">Próximamente</div>
+    <div className="mt-2 text-sm text-gray-800">
+      Espacio reservado para una sección importante que agregaremos.
+    </div>
+  </div>
+</aside>
+
           </div>
         </section>
       </main>
