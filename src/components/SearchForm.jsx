@@ -9,7 +9,7 @@ export default function SearchForm({ onSearch }) {
   const [stops, setStops] = useState("Cualquiera");
 
   function submit(e) {
-    e?.preventDefault();
+    if (e) e.preventDefault();
     onSearch &&
       onSearch({
         from,
@@ -22,7 +22,7 @@ export default function SearchForm({ onSearch }) {
   }
 
   function quick(e) {
-    e?.preventDefault();
+    if (e) e.preventDefault();
     onSearch &&
       onSearch({
         from,
@@ -36,7 +36,7 @@ export default function SearchForm({ onSearch }) {
   }
 
   function nearby(e) {
-    e?.preventDefault();
+    if (e) e.preventDefault();
     onSearch &&
       onSearch({
         from,
@@ -50,119 +50,120 @@ export default function SearchForm({ onSearch }) {
   }
 
   return (
-    <form
-      onSubmit={submit}
-      className="w-full rounded-xl p-6"
-      style={{
-        background: "rgba(255,255,255,0.05)",
-      }}
-    >
-      {/* Línea con todos los filtros */}
-      <div className="flex flex-wrap items-center gap-4 mb-4">
-        {/* Origen */}
-        <div className="flex flex-col">
-          <label className="text-loreverde font-bold">Origen</label>
-          <select
-            className="p-2 rounded bg-gray-800 text-champagne"
-            value={from}
-            onChange={(e) => setFrom(e.target.value)}
-          >
-            <option value="Cualquiera">Cualquiera</option>
-            <option value="EZE">EZE</option>
-            <option value="AEP">AEP</option>
-            <option value="BUE">BUE</option>
-          </select>
-        </div>
+    <form onSubmit={submit} className="w-full">
+      {/* contenedor oscuro del form */}
+      <div className="w-full bg-gray-900/60 rounded-xl p-5">
+        {/* Fila única: flex-nowrap + overflow-x-auto para que no se rompa en varias líneas */}
+        <div className="flex flex-nowrap items-end gap-6 overflow-x-auto">
+          {/* Origen */}
+          <div className="flex-shrink-0 min-w-[14rem]">
+            <label className="block text-sm font-bold text-emerald-300 mb-2">Origen</label>
+            <select
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+            >
+              <option value="Cualquiera">Cualquiera</option>
+              <option value="EZE">EZE</option>
+              <option value="AEP">AEP</option>
+              <option value="BUE">BUE</option>
+            </select>
+          </div>
 
-        {/* Destino */}
-        <div className="flex flex-col">
-          <label className="text-loreverde font-bold">Destino</label>
-          <select
-            className="p-2 rounded bg-gray-800 text-champagne"
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
-          >
-            <option value="Cualquiera">Cualquiera</option>
-            <option value="MAD">MAD</option>
-            <option value="NYC">NYC</option>
-            <option value="MIA">MIA</option>
-          </select>
-        </div>
+          {/* Destino */}
+          <div className="flex-shrink-0 min-w-[14rem]">
+            <label className="block text-sm font-bold text-emerald-300 mb-2">Destino</label>
+            <select
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+            >
+              <option value="Cualquiera">Cualquiera</option>
+              <option value="MAD">MAD</option>
+              <option value="NYC">NYC</option>
+              <option value="MIA">MIA</option>
+            </select>
+          </div>
 
-        {/* Fecha + Flexible */}
-        <div className="flex flex-col">
-          <label className="text-loreverde font-bold">Fecha</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="date"
-              className="p-2 rounded bg-gray-800 text-champagne"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-            <label className="text-champagne text-sm flex items-center gap-1">
+          {/* Fecha (+ Flexible dentro del campo) */}
+          <div className="flex-shrink-0 min-w-[16rem]">
+            <label className="block text-sm font-bold text-emerald-300 mb-2">Fecha</label>
+            <div className="flex items-center gap-3">
               <input
-                type="checkbox"
-                checked={flexible}
-                onChange={(e) => setFlexible(e.target.checked)}
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
               />
-              Flexible
-            </label>
+              <label className="flex items-center gap-2 text-sm text-[#F5EBDD]">
+                <input
+                  type="checkbox"
+                  checked={flexible}
+                  onChange={(e) => setFlexible(e.target.checked)}
+                  className="accent-emerald-400"
+                />
+                <span className="text-sm">Flexible</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Aerolínea */}
+          <div className="flex-shrink-0 min-w-[14rem]">
+            <label className="block text-sm font-bold text-emerald-300 mb-2">Aerolínea</label>
+            <select
+              value={airline}
+              onChange={(e) => setAirline(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+            >
+              <option value="Todas / Cualquiera">Todas / Cualquiera</option>
+              <option value="KLM">KLM</option>
+              <option value="IB">IB</option>
+              <option value="AA">AA</option>
+            </select>
+          </div>
+
+          {/* Escalas */}
+          <div className="flex-shrink-0 min-w-[12rem]">
+            <label className="block text-sm font-bold text-emerald-300 mb-2">Escalas</label>
+            <select
+              value={stops}
+              onChange={(e) => setStops(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+            >
+              <option value="Cualquiera">Cualquiera</option>
+              <option value="0">0 (Directo)</option>
+              <option value="1">1</option>
+              <option value="2+">2 o más</option>
+            </select>
           </div>
         </div>
 
-        {/* Aerolínea */}
-        <div className="flex flex-col">
-          <label className="text-loreverde font-bold">Aerolínea</label>
-          <select
-            className="p-2 rounded bg-gray-800 text-champagne"
-            value={airline}
-            onChange={(e) => setAirline(e.target.value)}
+        {/* Botones: en una línea abajo; si necesitas que estén en la misma fila superior lo adaptamos */}
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <button
+            type="submit"
+            className="px-8 py-3 rounded-lg bg-emerald-500 text-white font-bold shadow"
+            aria-label="Buscar Vuelos"
           >
-            <option value="Todas / Cualquiera">Todas / Cualquiera</option>
-            <option value="KLM">KLM</option>
-            <option value="IB">IB</option>
-            <option value="AA">AA</option>
-          </select>
-        </div>
+            Buscar Vuelos
+          </button>
 
-        {/* Escalas */}
-        <div className="flex flex-col">
-          <label className="text-loreverde font-bold">Escalas</label>
-          <select
-            className="p-2 rounded bg-gray-800 text-champagne"
-            value={stops}
-            onChange={(e) => setStops(e.target.value)}
+          <button
+            type="button"
+            onClick={quick}
+            className="px-6 py-3 rounded-lg bg-orange-500 text-white font-bold shadow"
           >
-            <option value="Cualquiera">Cualquiera</option>
-            <option value="0">0 (Directo)</option>
-            <option value="1">1</option>
-            <option value="2+">2 o más</option>
-          </select>
-        </div>
-      </div>
+            Ofertas de Último Momento
+          </button>
 
-      {/* Botones */}
-      <div className="flex flex-wrap gap-4">
-        <button
-          type="submit"
-          className="bg-loreverde text-champagne font-bold px-6 py-2 rounded-lg"
-        >
-          Buscar Vuelos
-        </button>
-        <button
-          onClick={quick}
-          type="button"
-          className="bg-naranja text-champagne font-bold px-6 py-2 rounded-lg"
-        >
-          Ofertas de Último Momento
-        </button>
-        <button
-          onClick={nearby}
-          type="button"
-          className="bg-champagne text-gray-900 font-bold px-6 py-2 rounded-lg"
-        >
-          Opciones desde Aeropuertos Cercanos
-        </button>
+          <button
+            type="button"
+            onClick={nearby}
+            className="px-6 py-3 rounded-lg bg-[#F5EBDD] text-gray-900 font-bold shadow"
+          >
+            Opciones desde Aeropuertos Cercanos
+          </button>
+        </div>
       </div>
     </form>
   );
