@@ -1,9 +1,7 @@
-// src/App.jsx
 import React, { useState } from "react";
 import SearchForm from "./components/SearchForm";
 import Loader from "./components/Loader";
 import FlightCard from "./components/FlightCard";
-import "./styles.css";
 
 /* --- Mocked helper: simula búsqueda de vuelos (reemplazar por API real) --- */
 function simulateFetchFlights(params) {
@@ -88,12 +86,14 @@ function simulateFetchFlights(params) {
         }
       ];
 
-      let flights = base;
-      if (params.airline) {
-        flights = base.filter(f => f.airline.toLowerCase().includes(params.airline.toLowerCase()));
-      }
+      const flights = params.airline
+        ? base.filter(f =>
+            f.airline.toLowerCase().includes(params.airline.toLowerCase())
+          )
+        : base;
 
-      const recommendedSave = "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.";
+      const recommendedSave =
+        "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.";
 
       resolve({ flights, recommendedSave, calendar: generateCheapCalendar() });
     }, 1100 + Math.random() * 900);
@@ -107,7 +107,6 @@ function generateCheapCalendar() {
   ];
 }
 
-/* --- App principal --- */
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [flights, setFlights] = useState([]);
@@ -125,13 +124,12 @@ export default function App() {
       const data = await simulateFetchFlights(params);
       if (!data || !data.flights || data.flights.length === 0) {
         setError("No hay vuelos disponibles para esos parámetros.");
-        setFlights([]);
       } else {
         setFlights(data.flights);
       }
       setRecommendation(data.recommendedSave || null);
       setCalendar(data.calendar || []);
-    } catch (err) {
+    } catch {
       setError("Ocurrió un error buscando vuelos. Intentá nuevamente.");
     } finally {
       setLoading(false);
@@ -139,96 +137,33 @@ export default function App() {
   }
 
   return (
-    <div style={{minHeight:"100vh", padding:"28px", background:"var(--bg)"}}>
-      <header style={{maxWidth:1200, margin:"0 auto 18px", display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-        <div style={{display:"flex",alignItems:"center",gap:14}}>
-          <div style={{width:54,height:54,borderRadius:14,background:"var(--lore-verde)",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--champagne)",fontSize:22,fontWeight:800}}>✈️</div>
-          <div>
-            <div className="app-title">Lore07 Viajando</div>
-            <div style={{color:"var(--champagne)", fontWeight:800}}>
-  Tu App de Vuelos Inteligente
-</div>
-
+    <div className="min-h-screen p-4 md:p-8 bg-gray-900">
+      <header className="max-w-6xl mx-auto">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-300 flex items-center justify-center text-white text-xl font-bold">
+              ✈️
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold text-orange-500">
+                Lore07 Viajando
+              </h1>
+              <div className="text-sm text-champagne font-bold">
+                Tu App de Vuelos Inteligente
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div>
-          <div className="support-badge">Soporte: info@lore07viajando.com</div>
+          <div className="hidden md:block text-sm">
+            <span className="px-3 py-1 rounded-full bg-champagne text-orange-500 font-bold border">
+              Soporte: info@lore07viajando.com
+            </span>
+          </div>
         </div>
       </header>
 
-      <main style={{maxWidth:1200, margin:"0 auto"}}>
+      <main className="max-w-6xl mx-auto mt-6 space-y-6">
         <SearchForm onSearch={handleSearch} />
 
-        <section style={{marginTop:18}}>
-          <div className="results-grid">
-            <div className="left">
-              <h2 style={{color:"#fff", marginBottom:12}}>Resultados</h2>
-
-              {loading && <Loader text="Buscando mejores opciones..." />}
-
-              {error && (
-                <div className="card" style={{background:"rgba(255,0,0,0.06)",padding:12,borderRadius:12,color:"#ffdede"}}>{error}</div>
-              )}
-
-              {!loading && !error && flights.length === 0 && (
-                <div className="card" style={{padding:18, borderRadius:12, color:"var(--muted-gray)"}}>
-                  Los resultados aparecerán aquí. Probá con otro destino o buscá ofertas último momento.
-                </div>
-              )}
-
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr", gap:18, marginTop:12}}>
-                {flights.map(f => <FlightCard key={f.id} flight={f} />)}
-              </div>
-            </div>
-
-            <aside className="space-y-4">
-  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-extrabold text-lg">Tips</div>
-    <div className="mt-2 text-sm text-gray-800">
-      {recommendation || "Sin tips por el momento."}
-    </div>
-  </div>
-
-  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-extrabold text-lg">Calendario con Mejores Precios</div>
-    <div className="mt-3 space-y-2 text-sm text-gray-800">
-      {calendar.length === 0 ? (
-        <div>No hay datos de calendario.</div>
-      ) : (
-        calendar.map((c, i) => (
-          <div key={i} className="flex items-center justify-between">
-            <div>{c.month} • <span className="font-medium">{c.bestDay}</span></div>
-            <div className="font-bold">{c.price}</div>
-          </div>
-        ))
-      )}
-    </div>
-  </div>
-
-  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-extrabold text-lg">Oportunidades en Premium/Business</div>
-    <div className="mt-2 text-sm text-gray-800">
-      Encontrá upgrades y tarifas especiales para viajar con más comodidad.
-    </div>
-  </div>
-
-  <div className="card p-4 rounded-2xl bg-[#F5EBDD]">
-    <div className="text-loreverde font-extrabold text-lg">Próximamente</div>
-    <div className="mt-2 text-sm text-gray-800">
-      Espacio reservado para una sección importante que agregaremos.
-    </div>
-  </div>
-</aside>
-
-
-          </div>
-        </section>
-      </main>
-
-      <footer style={{maxWidth:1200, margin:"36px auto 80px", textAlign:"center", color:"var(--muted-gray)"}}>
-        © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos simulados).
-      </footer>
-    </div>
-  );
-}
+        <section>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg
