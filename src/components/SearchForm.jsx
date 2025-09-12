@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 export default function SearchForm({ onSearch }) {
-  const [from, setFrom] = useState("EZE");
-  const [to, setTo] = useState("MAD");
+  const [from, setFrom] = useState("Cualquiera");
+  const [to, setTo] = useState("Cualquiera");
   const [date, setDate] = useState("");
   const [flexible, setFlexible] = useState(false);
-  const [airline, setAirline] = useState("");
-  const [stops, setStops] = useState("");
+  const [airline, setAirline] = useState("Todas / Cualquiera");
+  const [stops, setStops] = useState("Cualquiera");
 
   function submit(e) {
     e?.preventDefault();
@@ -16,8 +16,8 @@ export default function SearchForm({ onSearch }) {
         to,
         date: flexible ? null : date || null,
         flexible,
-        airline: airline || null,
-        stops: stops === "" ? null : Number(stops),
+        airline,
+        stops,
       });
   }
 
@@ -29,8 +29,8 @@ export default function SearchForm({ onSearch }) {
         to,
         date: flexible ? null : date || null,
         flexible,
-        airline: airline || null,
-        stops: stops === "" ? null : Number(stops),
+        airline,
+        stops,
         quick: true,
       });
   }
@@ -43,8 +43,8 @@ export default function SearchForm({ onSearch }) {
         to,
         date: flexible ? null : date || null,
         flexible,
-        airline: airline || null,
-        stops: stops === "" ? null : Number(stops),
+        airline,
+        stops,
         nearby: true,
       });
   }
@@ -54,153 +54,112 @@ export default function SearchForm({ onSearch }) {
       onSubmit={submit}
       className="w-full rounded-xl p-6"
       style={{
-        background: "rgba(255,255,255,0.02)",
-        boxShadow: "0 6px 18px rgba(2,6,23,0.6)",
+        background: "rgba(255,255,255,0.05)",
       }}
     >
-      {/* Primera fila: Origen, Destino, Fecha, Aerolínea, Escalas */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
-          gap: 14,
-          alignItems: "end",
-        }}
-      >
+      {/* Línea con todos los filtros */}
+      <div className="flex flex-wrap items-center gap-4 mb-4">
         {/* Origen */}
-        <div>
-          <label className="block text-sm font-semibold text-[#00bfa5] mb-2">
-            Origen
-          </label>
+        <div className="flex flex-col">
+          <label className="text-loreverde font-bold">Origen</label>
           <select
+            className="p-2 rounded bg-gray-800 text-champagne"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="w-full rounded-md px-4 py-3 bg-[#0f1720] text-champagne"
           >
+            <option value="Cualquiera">Cualquiera</option>
             <option value="EZE">EZE</option>
             <option value="AEP">AEP</option>
             <option value="BUE">BUE</option>
-            <option value="CUALQUIERA">Cualquiera</option>
           </select>
         </div>
 
         {/* Destino */}
-        <div>
-          <label className="block text-sm font-semibold text-[#00bfa5] mb-2">
-            Destino
-          </label>
+        <div className="flex flex-col">
+          <label className="text-loreverde font-bold">Destino</label>
           <select
+            className="p-2 rounded bg-gray-800 text-champagne"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full rounded-md px-4 py-3 bg-[#0f1720] text-champagne"
           >
+            <option value="Cualquiera">Cualquiera</option>
             <option value="MAD">MAD</option>
             <option value="NYC">NYC</option>
             <option value="MIA">MIA</option>
-            <option value="CUALQUIERA">Cualquiera</option>
           </select>
         </div>
 
-        {/* Fecha con Flexible */}
-        <div>
-          <label className="block text-sm font-semibold text-[#00bfa5] mb-2">
-            Fecha
-          </label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            disabled={flexible}
-            className="rounded-md px-4 py-3 bg-[#0f1720] text-champagne w-full"
-          />
-          <label className="block mt-1 text-xs text-champagne font-medium">
+        {/* Fecha + Flexible */}
+        <div className="flex flex-col">
+          <label className="text-loreverde font-bold">Fecha</label>
+          <div className="flex items-center gap-2">
             <input
-              type="checkbox"
-              checked={flexible}
-              onChange={(e) => setFlexible(e.target.checked)}
-              className="mr-1"
+              type="date"
+              className="p-2 rounded bg-gray-800 text-champagne"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
-            Flexible
-          </label>
+            <label className="text-champagne text-sm flex items-center gap-1">
+              <input
+                type="checkbox"
+                checked={flexible}
+                onChange={(e) => setFlexible(e.target.checked)}
+              />
+              Flexible
+            </label>
+          </div>
         </div>
 
         {/* Aerolínea */}
-        <div>
-          <label className="block text-sm font-semibold text-[#00bfa5] mb-2">
-            Aerolínea
-          </label>
+        <div className="flex flex-col">
+          <label className="text-loreverde font-bold">Aerolínea</label>
           <select
+            className="p-2 rounded bg-gray-800 text-champagne"
             value={airline}
             onChange={(e) => setAirline(e.target.value)}
-            className="w-full rounded-md px-4 py-3 bg-[#0f1720] text-champagne"
           >
-            <option value="">Todas / Cualquiera</option>
+            <option value="Todas / Cualquiera">Todas / Cualquiera</option>
             <option value="KLM">KLM</option>
-            <option value="IB">Iberia</option>
-            <option value="AF">Air France</option>
+            <option value="IB">IB</option>
+            <option value="AA">AA</option>
           </select>
         </div>
 
         {/* Escalas */}
-        <div>
-          <label className="block text-sm font-semibold text-[#00bfa5] mb-2">
-            Escalas
-          </label>
-          <input
-            type="number"
-            min="0"
-            placeholder="Cualquiera"
+        <div className="flex flex-col">
+          <label className="text-loreverde font-bold">Escalas</label>
+          <select
+            className="p-2 rounded bg-gray-800 text-champagne"
             value={stops}
             onChange={(e) => setStops(e.target.value)}
-            className="w-full rounded-md px-4 py-3 bg-[#0f1720] text-champagne"
-          />
+          >
+            <option value="Cualquiera">Cualquiera</option>
+            <option value="0">0 (Directo)</option>
+            <option value="1">1</option>
+            <option value="2+">2 o más</option>
+          </select>
         </div>
       </div>
 
       {/* Botones */}
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          marginTop: 20,
-          alignItems: "center",
-        }}
-      >
+      <div className="flex flex-wrap gap-4">
         <button
           type="submit"
-          onClick={submit}
-          className="px-10 py-3 rounded-lg font-semibold"
-          style={{
-            background: "#00bfa5",
-            color: "#ffffff",
-            boxShadow: "0 6px 12px rgba(0,0,0,0.3)",
-          }}
+          className="bg-loreverde text-champagne font-bold px-6 py-2 rounded-lg"
         >
           Buscar Vuelos
         </button>
-
         <button
-          type="button"
           onClick={quick}
-          className="px-6 py-3 rounded-lg font-semibold"
-          style={{
-            background: "#f97316",
-            color: "#fff",
-            boxShadow: "0 6px 12px rgba(0,0,0,0.25)",
-          }}
+          type="button"
+          className="bg-naranja text-champagne font-bold px-6 py-2 rounded-lg"
         >
           Ofertas de Último Momento
         </button>
-
         <button
-          type="button"
           onClick={nearby}
-          className="px-5 py-3 rounded-lg font-medium"
-          style={{
-            background: "#f6e9da",
-            color: "#213944",
-            border: "1px solid rgba(0,0,0,0.06)",
-          }}
+          type="button"
+          className="bg-champagne text-gray-900 font-bold px-6 py-2 rounded-lg"
         >
           Opciones desde Aeropuertos Cercanos
         </button>
