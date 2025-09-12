@@ -1,12 +1,42 @@
+// src/App.jsx
 import React, { useState } from "react";
 import SearchForm from "./components/SearchForm";
 import Loader from "./components/Loader";
 import FlightCard from "./components/FlightCard";
+import "./styles.css";
 
-/* --- Mock helper: simula búsqueda (reemplazar por API real) --- */
+/* --- Mocked helper: simula búsqueda de vuelos (reemplazar por API real) --- */
 function simulateFetchFlights(params) {
   return new Promise((resolve) => {
     setTimeout(() => {
+      if (params.quick) {
+        return resolve({
+          flights: [
+            {
+              id: "last1",
+              price: 420,
+              currency: "USD",
+              airline: "Iberia",
+              from: "EZE",
+              to: "MAD",
+              depart: "2025-10-01 23:30",
+              arrive: "2025-10-02 14:10",
+              duration: "12h 40m",
+              cabin: "Business - Oferta Último Momento",
+              stopover: { time: "2h", city: "GRU" },
+              benefits: "1 noche gratis en destino",
+              buyLink: "https://example.com/buy/last1",
+              paymentOptions: ["Tarjeta", "Cuotas", "Millas"]
+            }
+          ],
+          recommendedSave: "Viajar martes suele ser 20% más barato"
+        });
+      }
+
+      if (params.to && params.to.toLowerCase() === "nope") {
+        return resolve({ flights: [], recommendedSave: null });
+      }
+
       const base = [
         {
           id: "f1",
@@ -58,16 +88,23 @@ function simulateFetchFlights(params) {
         }
       ];
 
-      resolve({
-        flights: base,
-        recommendedSave: "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.",
-        calendar: [
-          { month: "Oct 2025", bestDay: "Mar 14", price: "USD 650" },
-          { month: "Nov 2025", bestDay: "Mar 21", price: "USD 620" }
-        ]
-      });
-    }, 1200);
+      let flights = base;
+      if (params.airline) {
+        flights = base.filter(f => f.airline.toLowerCase().includes(params.airline.toLowerCase()));
+      }
+
+      const recommendedSave = "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.";
+
+      resolve({ flights, recommendedSave, calendar: generateCheapCalendar() });
+    }, 1100 + Math.random() * 900);
   });
+}
+
+function generateCheapCalendar() {
+  return [
+    { month: "Oct 2025", bestDay: "Mar 14", price: "USD 650" },
+    { month: "Nov 2025", bestDay: "Mar 21", price: "USD 620" }
+  ];
 }
 
 /* --- App principal --- */
@@ -94,7 +131,7 @@ export default function App() {
       }
       setRecommendation(data.recommendedSave || null);
       setCalendar(data.calendar || []);
-    } catch {
+    } catch (err) {
       setError("Ocurrió un error buscando vuelos. Intentá nuevamente.");
     } finally {
       setLoading(false);
@@ -102,109 +139,83 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-gray-900">
-      {/* HEADER */}
-      <header className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-pastelAguamarina flex items-center justify-center text-white text-xl font-bold">✈️</div>
-            <div>
-              {/* Título en naranja */}
-              <h1 className="text-2xl md:text-3xl font-extrabold text-orange-500">Lore07 Viajando</h1>
-              {/* Subtítulo champagne negrita */}
-              <div className="text-sm font-bold text-pastelChampagne">
-                Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).
-              </div>
-            </div>
+    <div style={{minHeight:"100vh", padding:"28px", background:"var(--bg)"}}>
+      <header style={{maxWidth:1200, margin:"0 auto 18px", display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <div style={{width:54,height:54,borderRadius:14,background:"var(--lore-verde)",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--champagne)",fontSize:22,fontWeight:800}}>✈️</div>
+          <div>
+            <div className="app-title">Lore07 Viajando</div>
+            <div style={{color:"var(--muted-gray)",fontWeight:700}}>Tu app para encontrar vuelos y oportunidades (premium, upgrades, ofertas último momento).</div>
           </div>
-          <div className="hidden md:block text-sm">
-            {/* soporte → texto naranja negrita */}
-            <span className="px-3 py-1 rounded-full bg-pastelChampagne border font-bold text-orange-500">
-              Soporte: info@lore07viajando.com
-            </span>
-          </div>
+        </div>
+
+        <div>
+          <div className="support-badge">Soporte: info@lore07viajando.com</div>
         </div>
       </header>
 
-      {/* MAIN */}
-      <main className="max-w-6xl mx-auto mt-6 space-y-6">
+      <main style={{maxWidth:1200, margin:"0 auto"}}>
         <SearchForm onSearch={handleSearch} />
 
-        <section>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-4">
-              <div className="text-lg font-semibold text-pastelChampagne">Resultados</div>
+        <section style={{marginTop:18}}>
+          <div className="results-grid">
+            <div className="left">
+              <h2 style={{color:"#fff", marginBottom:12}}>Resultados</h2>
 
               {loading && <Loader text="Buscando mejores opciones..." />}
-              {error && <div className="p-4 rounded-2xl border border-red-100 bg-red-50 text-red-800">{error}</div>}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {flights.map((f) => (
-                  <FlightCard key={f.id} flight={f} />
-                ))}
+              {error && (
+                <div className="card" style={{background:"rgba(255,0,0,0.06)",padding:12,borderRadius:12,color:"#ffdede"}}>{error}</div>
+              )}
+
+              {!loading && !error && flights.length === 0 && (
+                <div className="card" style={{padding:18, borderRadius:12, color:"var(--muted-gray)"}}>
+                  Los resultados aparecerán aquí. Probá con otro destino o buscá ofertas último momento.
+                </div>
+              )}
+
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr", gap:18, marginTop:12}}>
+                {flights.map(f => <FlightCard key={f.id} flight={f} />)}
               </div>
             </div>
 
-            {/* LADO DERECHO */}
-           <aside className="space-y-4">
-  {/* Recomendación inteligente */}
-  <div className="card p-4 rounded-2xl bg-pastelChampagne">
-    <div className="text-sm font-bold text-loreverde">
-      Recomendación inteligente
-    </div>
-    <div className="mt-2 text-sm text-gray-800 font-medium">
-      {recommendation || "Sin recomendaciones por el momento."}
-    </div>
-  </div>
+            <aside style={{display:"flex",flexDirection:"column",gap:14}}>
+              <div className="side-card">
+                <div className="title">Recomendación inteligente</div>
+                <div className="desc" style={{marginTop:8}}>{recommendation || "Sin recomendaciones por el momento."}</div>
+              </div>
 
-  {/* Calendario de mejores precios */}
-  <div className="card p-4 rounded-2xl bg-pastelChampagne">
-    <div className="text-sm font-bold text-loreverde">
-      Calendario: mejores precios
-    </div>
-    <div className="mt-3 space-y-2 text-gray-800 font-medium">
-      {calendar.length === 0 ? (
-        <div className="text-sm">No hay datos de calendario.</div>
-      ) : (
-        calendar.map((c, i) => (
-          <div key={i} className="flex items-center justify-between">
-            <div className="text-sm">
-              {c.month} • <span className="font-medium">{c.bestDay}</span>
-            </div>
-            <div className="text-sm font-bold">{c.price}</div>
-          </div>
-        ))
-      )}
-    </div>
-  </div>
+              <div className="side-card">
+                <div className="title">Calendario: mejores precios</div>
+                <div style={{marginTop:8}}>
+                  {calendar.length === 0 ? (
+                    <div className="desc">No hay datos de calendario.</div>
+                  ) : (
+                    calendar.map((c,i)=>(
+                      <div key={i} style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+                        <div style={{color:"var(--muted-gray)"}}>{c.month} • <span className="bold">{c.bestDay}</span></div>
+                        <div className="bold">{c.price}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
 
-  {/* Ofertas último momento */}
-  <div className="card p-4 rounded-2xl bg-pastelChampagne">
-    <div className="text-sm font-bold text-loreverde">
-      Ofertas último momento
-    </div>
-    <div className="mt-3 text-sm text-gray-800 font-medium">
-      Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.
-    </div>
-  </div>
+              <div className="side-card">
+                <div className="title">Ofertas último momento</div>
+                <div className="desc" style={{marginTop:8}}>Presioná "Ver ofertas último momento" en el formulario para ver oportunidades flash.</div>
+              </div>
 
-  {/* Opciones de pago */}
-  <div className="card p-4 rounded-2xl bg-pastelChampagne">
-    <div className="text-sm font-bold text-loreverde">
-      Opciones de pago
-    </div>
-    <div className="mt-3 text-sm text-gray-800 font-medium">
-      Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).
-    </div>
-  </div>
-</aside>
-
+              <div className="side-card">
+                <div className="title">Opciones de pago</div>
+                <div className="desc" style={{marginTop:8}}>Aceptamos tarjeta, cuotas y millas (dependiendo de la aerolínea).</div>
+              </div>
+            </aside>
           </div>
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="max-w-6xl mx-auto mt-10 mb-8 text-center text-sm text-gray-400">
+      <footer style={{maxWidth:1200, margin:"36px auto 80px", textAlign:"center", color:"var(--muted-gray)"}}>
         © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos simulados).
       </footer>
     </div>
