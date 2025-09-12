@@ -4,15 +4,15 @@ export default function FlightCard({ flight }) {
   if (!flight) return null;
 
   return (
-    <div className="bg-[#FF6B00] rounded-2xl p-5 shadow-md text-sm text-[#222] flex flex-col gap-2">
+    <div className="bg-[#FF6B00] rounded-2xl p-6 shadow-md text-base text-[#222] flex flex-col gap-3">
       {/* Aerolínea + Precio */}
-      <div className="text-[#F5EBDD] font-extrabold text-xl flex justify-between items-center">
+      <div className="text-[#F5EBDD] font-extrabold text-2xl flex justify-between items-center">
         <span>{flight.airline}</span>
         <span>USD {flight.price}</span>
       </div>
 
       {/* Clase de cabina */}
-      <div className="text-[#F5EBDD] font-bold text-base mb-2">
+      <div className="text-[#F5EBDD] font-bold text-lg mb-3">
         {flight.cabin}
       </div>
 
@@ -61,12 +61,12 @@ export default function FlightCard({ flight }) {
       )}
 
       {/* Botón Comprar */}
-      <div className="mt-4">
+      <div className="mt-5">
         <a
           href={flight.buyLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center px-4 py-2 rounded-lg bg-emerald-500 font-bold text-[#F5EBDD] hover:bg-emerald-600 transition"
+          className="block w-full text-center px-5 py-3 rounded-lg bg-emerald-500 font-bold text-[#F5EBDD] hover:bg-emerald-600 transition text-lg"
         >
           Comprar
         </a>
