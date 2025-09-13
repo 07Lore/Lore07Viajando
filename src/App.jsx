@@ -241,14 +241,14 @@ export default function App() {
               <div className="p-4 rounded-2xl bg-champagne">
                 <div className="text-emerald-300 font-extrabold text-lg">Oportunidades en Premium/Business</div>
                 <div className="mt-2 text-sm text-gray-800">
-                  Encontrá upgrades y tarifas especiales para viajar con más comodidad.
+                  Encontrá Upgrades y tarifas especiales para viajar como te mereces.
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-champagne">
-                <div className="text-emerald-300 font-extrabold text-lg">Próximamente</div>
+                <div className="text-emerald-300 font-extrabold text-lg">Link a Stopover</div>
                 <div className="mt-2 text-sm text-gray-800">
-                  Espacio reservado para una sección importante que agregaremos.
+                  Enlace directo con la Aerolínea.
                 </div>
               </div>
             </aside>
