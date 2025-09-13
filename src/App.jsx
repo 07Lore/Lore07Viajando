@@ -213,28 +213,70 @@ export default function App() {
               </div>
             </div>
 
-                     {/* Right: sidebar */}
-           {/* Aside Panel */}
-<aside className="bg-[#1a1f29] p-4 rounded-2xl shadow-lg">
-  <h2 className="text-green-600 text-lg font-semibold mb-4">Tips de Viaje</h2>
+                               {/* Right: sidebar */}
+            <aside className="space-y-4">
+              {/* Tips */}
+              <div className="p-4 rounded-2xl bg-champagne">
+                <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
+                <div className="mt-2 text-base text-gray-800 leading-relaxed">
+                  {recommendation || "Sin tips por el momento."}
+                </div>
+              </div>
 
-  <p className="text-gray-400 mb-4">
-    Aprovecha promociones especiales y optimiza tu experiencia de vuelo.
-  </p>
+              {/* Calendario */}
+              <div className="p-4 rounded-2xl bg-champagne">
+                <div className="text-emerald-300 font-extrabold text-lg mb-2">
+                  Calendario con Mejores Precios
+                </div>
+                <div className="mt-3 space-y-3 text-base text-gray-800 leading-relaxed">
+                  {calendar.length === 0 ? (
+                    <div>No hay datos de calendario.</div>
+                  ) : (
+                    calendar.map((c, i) => (
+                      <div key={i} className="flex items-center justify-between">
+                        <div>
+                          {c.month} • <span className="font-semibold">{c.bestDay}</span>
+                        </div>
+                        <div className="font-bold">{c.price}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
 
-  <div className="flex flex-col gap-3">
-    <button className="bg-[#f3eada] text-black font-semibold px-4 py-2 rounded-lg hover:bg-[#e6dbc7]">
-      Consejos para Ahorrar
-    </button>
-    <button className="bg-[#f3eada] text-black font-semibold px-4 py-2 rounded-lg hover:bg-[#e6dbc7]">
-      Cómo Maximizar Millas
-    </button>
-    <button className="bg-[#f3eada] text-black font-semibold px-4 py-2 rounded-lg hover:bg-[#e6dbc7]">
-      Documentación Necesaria
-    </button>
-  </div>
-</aside>
+              {/* Premium / Business */}
+              <div className="p-4 rounded-2xl bg-champagne">
+                <div className="text-emerald-300 font-extrabold text-lg mb-2">
+                  Oportunidades en Premium/Business
+                </div>
+                <div className="mt-2 text-base text-gray-800 leading-relaxed">
+                  Encontrá Upgrades y tarifas especiales para viajar como te mereces.
+                </div>
+              </div>
 
+              {/* Stopover */}
+              <div className="p-4 rounded-2xl bg-champagne">
+                <div className="text-emerald-300 font-extrabold text-lg mb-2">
+                  Link a Stopover
+                </div>
+                <div className="mt-2 text-base text-gray-800 leading-relaxed">
+                  Enlace directo con la Aerolínea.
+                </div>
+              </div>
+
+              {/* Botones extras */}
+              <div className="space-y-3">
+                <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-gray-800 shadow hover:bg-orange-200">
+                  Filtros
+                </button>
+                <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-gray-800 shadow hover:bg-orange-200">
+                  Ordenar
+                </button>
+                <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-gray-800 shadow hover:bg-orange-200">
+                  Guardados
+                </button>
+              </div>
+            </aside>
           </div> {/* <-- cierre del grid */}
         </section> {/* <-- cierre de la sección */}
 
