@@ -216,7 +216,7 @@ export default function App() {
                                {/* Right: sidebar */}
             <aside className="space-y-4">
               {/* Tips */}
-              <div className="p-4 rounded-2xl bg-champagne">
+              <div className="p-4 rounded-2xl bg-[#f3eada]">
                 <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
                 <div className="mt-2 text-base text-gray-800 leading-relaxed">
                   {recommendation || "Sin tips por el momento."}
