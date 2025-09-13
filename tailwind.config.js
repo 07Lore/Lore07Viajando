@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       colors: {
         loreverde: "#00B894",     // Verde personalizado
-        champagne: bg-[#f3eada],     // Champagne
+        champagne: #F7E7CE",     // Champagne
         naranja: "#FF6F00",       // Naranja
         grisoscuro: "#1E1E1E",    // Gris oscuro
       },
