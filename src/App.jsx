@@ -213,30 +213,35 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right: sidebar */}
+           {/* Right: sidebar */}
 <aside className="space-y-4">
-  {/* Tips */}
-  <div className="p-4 rounded-2xl bg-champagne">
-    <div className="text-loreverde font-extrabold text-lg mb-2">Tips</div>
-    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
+  {/* Tips (clickeable) */}
+  <button
+    type="button"
+    onClick={() => { /* acción Tips (opcional) */ }}
+    className="w-full text-left p-4 rounded-2xl bg-champagne cursor-pointer focus:outline-none focus:ring-2 focus:ring-loreverde"
+    style={{ backgroundColor: "#F7E7CE" }} // fallback en caso de que bg-champagne no se genere
+  >
+    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+      Tips
+    </div>
+    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
       {recommendation || "Sin tips por el momento."}
     </div>
-  </div>
+  </button>
 
   {/* Calendario */}
-  <div className="p-4 rounded-2xl bg-champagne">
-    <div className="text-loreverde font-extrabold text-lg mb-2">
+  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
+    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
       Calendario con Mejores Precios
     </div>
-    <div className="mt-3 space-y-3 text-base text-grisosucuro leading-relaxed">
+    <div className="mt-3 space-y-3 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
       {calendar.length === 0 ? (
         <div>No hay datos de calendario.</div>
       ) : (
         calendar.map((c, i) => (
           <div key={i} className="flex items-center justify-between">
-            <div>
-              {c.month} • <span className="font-semibold">{c.bestDay}</span>
-            </div>
+            <div>{c.month} • <span className="font-semibold">{c.bestDay}</span></div>
             <div className="font-bold">{c.price}</div>
           </div>
         ))
@@ -245,40 +250,58 @@ export default function App() {
   </div>
 
   {/* Premium / Business */}
-  <div className="p-4 rounded-2xl bg-champagne">
-    <div className="text-loreverde font-extrabold text-lg mb-2">
+  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
+    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
       Oportunidades en Premium/Business
     </div>
-    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
+    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
       Encontrá Upgrades y tarifas especiales para viajar como te mereces.
     </div>
   </div>
 
   {/* Stopover */}
-  <div className="p-4 rounded-2xl bg-champagne">
-    <div className="text-loreverde font-extrabold text-lg mb-2">
+  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
+    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
       Link a Stopover
     </div>
-    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
+    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
       Enlace directo con la Aerolínea.
     </div>
   </div>
 
-  {/* Botones extras */}
+  {/* Botones extras (mismo estilo champagne) */}
   <div className="space-y-3">
-    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
+    <button
+      type="button"
+      onClick={() => { /* acción filtros */ }}
+      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+    >
       Filtros
     </button>
-    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
+
+    <button
+      type="button"
+      onClick={() => { /* acción ordenar */ }}
+      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+    >
       Ordenar
     </button>
-    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
+
+    <button
+      type="button"
+      onClick={() => { /* acción guardados */ }}
+      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+    >
       Guardados
     </button>
   </div>
 </aside>
 
-                
+
+               
           </div> {/* <-- cierre del grid */}
         </section> {/* <-- cierre de la sección */}
 
