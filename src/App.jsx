@@ -213,25 +213,22 @@ export default function App() {
               </div>
             </div>
 
-             {/* Right: sidebar */}
+            {/* Right: sidebar */}
 <aside className="space-y-4">
-  {/* Tips — ahora es clickeable con botón para que aparezca la mano y permita Enter */}
-  <button
-    type="button"
-    onClick={() => { /* abrir modal o acción */ }}
-    className="w-full text-left p-4 rounded-2xl bg-[#ffffff] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#3EB489]">
-    <div className="text-[#3EB489] font-extrabold text-lg mb-2">Tips</div>
-    <div className="mt-2 text-base text-gray-800 leading-relaxed">
+  {/* Tips */}
+  <div className="p-4 rounded-2xl bg-champagne">
+    <div className="text-loreverde font-extrabold text-lg mb-2">Tips</div>
+    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
       {recommendation || "Sin tips por el momento."}
     </div>
-  </button>
+  </div>
 
-  {/* Calendario (card no-clicable pero con colores correctos) */}
-  <div className="p-4 rounded-2xl bg-[#f3eada]">
-    <div className="text-[#3EB489] font-extrabold text-lg mb-2">
+  {/* Calendario */}
+  <div className="p-4 rounded-2xl bg-champagne">
+    <div className="text-loreverde font-extrabold text-lg mb-2">
       Calendario con Mejores Precios
     </div>
-    <div className="mt-3 space-y-3 text-base text-gray-800 leading-relaxed">
+    <div className="mt-3 space-y-3 text-base text-grisosucuro leading-relaxed">
       {calendar.length === 0 ? (
         <div>No hay datos de calendario.</div>
       ) : (
@@ -248,52 +245,39 @@ export default function App() {
   </div>
 
   {/* Premium / Business */}
-  <div className="p-4 rounded-2xl bg-[#f3eada]">
-    <div className="text-[#3EB489] font-extrabold text-lg mb-2">
+  <div className="p-4 rounded-2xl bg-champagne">
+    <div className="text-loreverde font-extrabold text-lg mb-2">
       Oportunidades en Premium/Business
     </div>
-    <div className="mt-2 text-base text-gray-800 leading-relaxed">
-      Encontrá upgrades y tarifas especiales para viajar como te mereces.
+    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
+      Encontrá Upgrades y tarifas especiales para viajar como te mereces.
     </div>
   </div>
 
   {/* Stopover */}
-  <div className="p-4 rounded-2xl bg-[#f3eada]">
-    <div className="text-[#3EB489] font-extrabold text-lg mb-2">
+  <div className="p-4 rounded-2xl bg-champagne">
+    <div className="text-loreverde font-extrabold text-lg mb-2">
       Link a Stopover
     </div>
-    <div className="mt-2 text-base text-gray-800 leading-relaxed">
+    <div className="mt-2 text-base text-grisosucuro leading-relaxed">
       Enlace directo con la Aerolínea.
     </div>
   </div>
 
-  {/* Botones extras — mismo estilo champagne que "Opciones desde..." */}
+  {/* Botones extras */}
   <div className="space-y-3">
-    <button
-      type="button"
-      onClick={() => { /* acción filtros */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold bg-[#f3eada] text-gray-800 shadow cursor-pointer hover:bg-[#e6dbc7] focus:outline-none"
-    >
+    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
       Filtros
     </button>
-
-    <button
-      type="button"
-      onClick={() => { /* acción ordenar */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold bg-[#f3eada] text-gray-800 shadow cursor-pointer hover:bg-[#e6dbc7] focus:outline-none"
-    >
+    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
       Ordenar
     </button>
-
-    <button
-      type="button"
-      onClick={() => { /* acción guardados */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold bg-[#f3eada] text-gray-800 shadow cursor-pointer hover:bg-[#e6dbc7] focus:outline-none"
-    >
+    <button className="w-full py-2 px-4 rounded-xl font-semibold bg-champagne text-grisosucuro shadow hover:bg-naranja">
       Guardados
     </button>
   </div>
 </aside>
+
                 
           </div> {/* <-- cierre del grid */}
         </section> {/* <-- cierre de la sección */}
