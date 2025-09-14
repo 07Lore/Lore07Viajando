@@ -37,12 +37,10 @@ function simulateFetchFlights(params) {
         });
       }
 
-      // Si "to" es "nope" devolvemos vacío (simulación)
       if (params && params.to && params.to.toLowerCase() === "nope") {
         return resolve({ flights: [], recommendedSave: null, calendar: [] });
       }
 
-      // Resultado simulado normal
       const base = [
         {
           id: "f1",
@@ -94,14 +92,11 @@ function simulateFetchFlights(params) {
         }
       ];
 
-      // Filtro por aerolínea si viene
       let flights = base;
       if (params && params.airline) {
         const al = params.airline.toString().toLowerCase();
         if (al && al !== "todas / cualquiera" && al !== "todas" && al !== "cualquiera") {
-          flights = base.filter((f) =>
-            f.airline.toLowerCase().includes(al)
-          );
+          flights = base.filter((f) => f.airline.toLowerCase().includes(al));
         }
       }
 
@@ -165,14 +160,14 @@ export default function App() {
               <h1 className="text-2xl md:text-3xl font-extrabold text-orange-500">
                 Lore07 Viajando
               </h1>
-              <div className="text-sm font-bold text-champagne">
+              <div className="text-sm font-bold text-stone-100">
                 Tu App de Vuelos Inteligente
               </div>
             </div>
           </div>
 
           <div className="hidden md:block">
-            <span className="px-3 py-1 rounded-full bg-champagne text-orange-500 font-bold border">
+            <span className="px-3 py-1 rounded-full bg-stone-100 text-orange-500 font-bold border">
               Soporte: info@lore07viajando.com
             </span>
           </div>
@@ -181,16 +176,14 @@ export default function App() {
 
       {/* MAIN */}
       <main className="max-w-6xl mx-auto">
-        {/* Search form */}
         <SearchForm onSearch={handleSearch} />
 
-        {/* Section results */}
         <section className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            {/* Left: results (span 2 cols) */}
+            {/* Left */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="text-lg font-semibold text-champagne">Resultados</div>
+              <div className="text-lg font-semibold text-stone-100">Resultados</div>
 
               {loading && <Loader text="Buscando mejores opciones..." />}
 
@@ -201,7 +194,7 @@ export default function App() {
               )}
 
               {!loading && !error && flights.length === 0 && (
-                <div className="p-6 rounded-2xl bg-gray-800/40 text-champagne">
+                <div className="p-6 rounded-2xl bg-gray-800/40 text-stone-100">
                   Los resultados aparecerán aquí. Probá con otro destino o buscá ofertas último momento.
                 </div>
               )}
@@ -211,31 +204,29 @@ export default function App() {
                   <FlightCard key={f.id} flight={f} />
                 ))}
               </div>
-            </div> {/* <-- cierre correcto de resultados */}
+            </div>
 
-            {/* Right: sidebar */}
+            {/* Right */}
             <aside className="space-y-4">
-              {/* Tips (clickeable) */}
+              {/* Tips */}
               <button
                 type="button"
-                onClick={() => {}}
-                className="w-full text-left p-4 rounded-2xl bg-champagne cursor-pointer focus:outline-none focus:ring-2 focus:ring-loreverde"
-                style={{ backgroundColor: "#F7E7CE" }}
+                className="w-full text-left p-4 rounded-2xl bg-stone-100 cursor-pointer"
               >
-                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
                   Tips
                 </div>
-                <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                <div className="mt-2 text-base leading-relaxed text-gray-900">
                   {recommendation || "Sin tips por el momento."}
                 </div>
               </button>
 
               {/* Calendario */}
-              <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
-                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+              <div className="p-4 rounded-2xl bg-stone-100">
+                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
                   Calendario con Mejores Precios
                 </div>
-                <div className="mt-3 space-y-3 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                <div className="mt-3 space-y-3 text-base leading-relaxed text-gray-900">
                   {calendar.length === 0 ? (
                     <div>No hay datos de calendario.</div>
                   ) : (
@@ -249,52 +240,28 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Premium / Business */}
-              <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
-                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+              {/* Premium */}
+              <div className="p-4 rounded-2xl bg-stone-100">
+                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
                   Oportunidades en Premium/Business
                 </div>
-                <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                <div className="mt-2 text-base leading-relaxed text-gray-900">
                   Encontrá Upgrades y tarifas especiales para viajar como te mereces.
-                </div>
-              </div>
-
-              {/* Stopover */}
-              <div className="p-4 rounded-2xl bg-red-500">
-                <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
-                <div className="mt-2 text-base text-gray-800 leading-relaxed">
-                  {recommendation || "Sin tips por el momento."}
                 </div>
               </div>
 
               {/* Botones extras */}
               <div className="space-y-3">
-                <button
-                  type="button"
-                  onClick={() => {}}
-                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-                >
-                  Filtros
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {}}
-                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-                >
-                  Ordenar
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {}}
-                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-                >
-                  Guardados
-                </button>
+                {["Filtros", "Ordenar", "Guardados"].map((txt, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer"
+                    style={{ backgroundColor: "#F5F5F4", color: "#1E1E1E" }} // F5F5F4 ≈ stone-100
+                  >
+                    {txt}
+                  </button>
+                ))}
               </div>
             </aside>
           </div>
