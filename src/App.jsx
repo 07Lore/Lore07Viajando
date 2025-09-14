@@ -97,7 +97,6 @@ function simulateFetchFlights(params) {
       // Filtro por aerolínea si viene
       let flights = base;
       if (params && params.airline) {
-        // params.airline puede ser "Todas / Cualquiera" o nombre
         const al = params.airline.toString().toLowerCase();
         if (al && al !== "todas / cualquiera" && al !== "todas" && al !== "cualquiera") {
           flights = base.filter((f) =>
@@ -188,6 +187,7 @@ export default function App() {
         {/* Section results */}
         <section className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
             {/* Left: results (span 2 cols) */}
             <div className="lg:col-span-2 space-y-4">
               <div className="text-lg font-semibold text-champagne">Resultados</div>
@@ -211,100 +211,100 @@ export default function App() {
                   <FlightCard key={f.id} flight={f} />
                 ))}
               </div>
-            </div>
+            </div> {/* <-- cierre correcto de resultados */}
 
-           {/* Right: sidebar */}
-<aside className="space-y-4">
-  {/* Tips (clickeable) */}
-  <button
-    type="button"
-    onClick={() => { /* acción Tips (opcional) */ }}
-    className="w-full text-left p-4 rounded-2xl bg-champagne cursor-pointer focus:outline-none focus:ring-2 focus:ring-loreverde"
-    style={{ backgroundColor: "#F7E7CE" }} // fallback en caso de que bg-champagne no se genere
-  >
-    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-      Tips
-    </div>
-    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
-      {recommendation || "Sin tips por el momento."}
-    </div>
-  </button>
+            {/* Right: sidebar */}
+            <aside className="space-y-4">
+              {/* Tips (clickeable) */}
+              <button
+                type="button"
+                onClick={() => {}}
+                className="w-full text-left p-4 rounded-2xl bg-champagne cursor-pointer focus:outline-none focus:ring-2 focus:ring-loreverde"
+                style={{ backgroundColor: "#F7E7CE" }}
+              >
+                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+                  Tips
+                </div>
+                <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                  {recommendation || "Sin tips por el momento."}
+                </div>
+              </button>
 
-  {/* Calendario */}
-  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
-    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-      Calendario con Mejores Precios
-    </div>
-    <div className="mt-3 space-y-3 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
-      {calendar.length === 0 ? (
-        <div>No hay datos de calendario.</div>
-      ) : (
-        calendar.map((c, i) => (
-          <div key={i} className="flex items-center justify-between">
-            <div>{c.month} • <span className="font-semibold">{c.bestDay}</span></div>
-            <div className="font-bold">{c.price}</div>
+              {/* Calendario */}
+              <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
+                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+                  Calendario con Mejores Precios
+                </div>
+                <div className="mt-3 space-y-3 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                  {calendar.length === 0 ? (
+                    <div>No hay datos de calendario.</div>
+                  ) : (
+                    calendar.map((c, i) => (
+                      <div key={i} className="flex items-center justify-between">
+                        <div>{c.month} • <span className="font-semibold">{c.bestDay}</span></div>
+                        <div className="font-bold">{c.price}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Premium / Business */}
+              <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
+                <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
+                  Oportunidades en Premium/Business
+                </div>
+                <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
+                  Encontrá Upgrades y tarifas especiales para viajar como te mereces.
+                </div>
+              </div>
+
+              {/* Stopover */}
+              <div className="p-4 rounded-2xl bg-red-500">
+                <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
+                <div className="mt-2 text-base text-gray-800 leading-relaxed">
+                  {recommendation || "Sin tips por el momento."}
+                </div>
+              </div>
+
+              {/* Botones extras */}
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={() => {}}
+                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+                >
+                  Filtros
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {}}
+                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+                >
+                  Ordenar
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {}}
+                  className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
+                  style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
+                >
+                  Guardados
+                </button>
+              </div>
+            </aside>
           </div>
-        ))
-      )}
-    </div>
-  </div>
-
-  {/* Premium / Business */}
-  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
-    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-      Oportunidades en Premium/Business
-    </div>
-    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
-      Encontrá Upgrades y tarifas especiales para viajar como te mereces.
-    </div>
-  </div>
-
-  {/* Stopover */}
-  <div className="p-4 rounded-2xl bg-red-500">
-  <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
-  <div className="mt-2 text-base text-gray-800 leading-relaxed">
-    {recommendation || "Sin tips por el momento."}
-  </div>
-</div>
-
-
-  {/* Botones extras (mismo estilo champagne) */}
-  <div className="space-y-3">
-    <button
-      type="button"
-      onClick={() => { /* acción filtros */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-    >
-      Filtros
-    </button>
-
-    <button
-      type="button"
-      onClick={() => { /* acción ordenar */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-    >
-      Ordenar
-    </button>
-
-    <button
-      type="button"
-      onClick={() => { /* acción guardados */ }}
-      className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer hover:bg-naranja"
-      style={{ backgroundColor: "#F7E7CE", color: "#1E1E1E" }}
-    >
-      Guardados
-    </button>
-  </div>
-</aside>
-
-
-               
-          </div> {/* <-- cierre del grid */}
-        </section> {/* <-- cierre de la sección */}
+        </section>
 
         {/* FOOTER */}
         <footer className="mt-10 text-center text-sm text-gray-400">
           © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos simulados).
         </footer>
+      </main>
+    </div>
+  );
+}
