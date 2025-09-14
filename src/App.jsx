@@ -260,14 +260,13 @@ export default function App() {
   </div>
 
   {/* Stopover */}
-  <div className="p-4 rounded-2xl bg-champagne" style={{ backgroundColor: "#F7E7CE" }}>
-    <div className="text-loreverde font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-      Link a Stopover
-    </div>
-    <div className="mt-2 text-base text-grisoscuro leading-relaxed" style={{ color: "#1E1E1E" }}>
-      Enlace directo con la Aerolínea.
-    </div>
+  <div className="p-4 rounded-2xl bg-red-500">
+  <div className="text-emerald-300 font-extrabold text-lg mb-2">Tips</div>
+  <div className="mt-2 text-base text-gray-800 leading-relaxed">
+    {recommendation || "Sin tips por el momento."}
   </div>
+</div>
+
 
   {/* Botones extras (mismo estilo champagne) */}
   <div className="space-y-3">
