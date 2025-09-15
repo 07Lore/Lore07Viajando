@@ -1,0 +1,68 @@
+Mini guía visual “Backup lore07viajando”
+
+1) Ubicar tu backup en la computadora
+- Abrí Finder (Mac) o Explorador de archivos (Windows).
+- Ir a la carpeta Documentos.
+- Buscá la carpeta llamada: lore07viajando
+  ✅ Esa carpeta es tu copia local del proyecto.
+
+Tip: si no ves archivos ocultos en Mac, presioná Cmd + Shift + . para mostrarlos.
+
+2) Abrir Terminal
+- Mac: Terminal
+- Windows: Git Bash
+
+3) Entrar a la carpeta del proyecto (comando listo para copiar y pegar)
+cd ~/Documents/lore07viajando
+
+(Nota: si usás "Documentos" en español, mantené esa ruta; si tu carpeta se llama "Documents", reemplazá accordingly.)
+
+4) Verificar estado del proyecto
+git status
+
+Salida ideal:
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean
+
+5) Hacer cambios y guardarlos (backup local)
+# Preparar archivos modificados
+git add .
+
+# Guardar los cambios con mensaje
+git commit -m "Descripción de lo que cambiaste"
+
+6) Subir cambios al repositorio online (GitHub)
+git push
+
+7) Resumen rápido (copia y pega)
+Entrar al proyecto:
+cd ~/Documents/lore07viajando
+
+Ver estado:
+git status
+
+Preparar cambios:
+git add .
+
+Guardar cambios:
+git commit -m "mensaje"
+
+Subir cambios:
+git push
+
+8) Si no encontrás la carpeta 'lore07viajando'
+- En Terminal, escribir:
+find ~ -name "lore07viajando"
+Esto te devuelve la ruta completa cuando exista.
+
+9) Guardar este instructivo dentro del proyecto (opcional)
+cd ~/Documents/lore07viajando
+# crea el archivo con el instructivo
+nano INSTRUCTIVO_BACKUP.txt
+# pega el contenido y guarda (Ctrl+O Enter, Ctrl+X)
+git add INSTRUCTIVO_BACKUP.txt
+git commit -m "Agrego instructivo para backup"
+git push
+
+Fin. Si querés, te creo un archivo .txt listo para descargar y/o un PDF. Dime cuál preferís o te lo dejo en ambos formatos.
