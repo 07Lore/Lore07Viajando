@@ -270,7 +270,7 @@ export default function App() {
                     key={i}
                     type="button"
                     className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer"
-                    style={{ backgroundColor: bg-[#F5EBDD], color: "#1E1E1E" }} // F5F5F4 ≈ stone-100
+                    style={{ backgroundColor: #F5EBDD", color: "#1E1E1E" }} // F5F5F4 ≈ stone-100
                   >
                     {txt}
                   </button>
