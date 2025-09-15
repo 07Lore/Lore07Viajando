@@ -206,49 +206,62 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right */}
-            <aside className="space-y-4">
-              {/* Tips */}
-              <button
-                type="button"
-                className="w-full text-left p-4 rounded-2xl bg-stone-100 cursor-pointer"
-              >
-                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-                  Tips
-                </div>
-                <div className="mt-2 text-base leading-relaxed text-gray-900">
-                  {recommendation || "Sin tips por el momento."}
-                </div>
-              </button>
+          {/* Right */}
+<aside className="space-y-4">
+  {/* Tips */}
+  <button
+    type="button"
+    className="w-full text-left p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer"
+  >
+    <div className="font-extrabold text-lg mb-2 text-green-600">
+      Tips
+    </div>
+    <div className="mt-2 text-base leading-relaxed text-gray-900">
+      {recommendation || "Sin tips por el momento."}
+    </div>
+  </button>
 
-              {/* Calendario */}
-              <div className="p-4 rounded-2xl bg-stone-100">
-                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-                  Calendario con Mejores Precios
-                </div>
-                <div className="mt-3 space-y-3 text-base leading-relaxed text-gray-900">
-                  {calendar.length === 0 ? (
-                    <div>No hay datos de calendario.</div>
-                  ) : (
-                    calendar.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <div>{c.month} • <span className="font-semibold">{c.bestDay}</span></div>
-                        <div className="font-bold">{c.price}</div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+  {/* Calendario */}
+  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="font-extrabold text-lg mb-2 text-green-600">
+      Calendario con Mejores Precios
+    </div>
+    <div className="mt-3 space-y-3 text-base leading-relaxed text-gray-900">
+      {calendar.length === 0 ? (
+        <div>No hay datos de calendario.</div>
+      ) : (
+        calendar.map((c, i) => (
+          <div key={i} className="flex items-center justify-between">
+            <div>
+              {c.month} • <span className="font-semibold">{c.bestDay}</span>
+            </div>
+            <div className="font-bold">{c.price}</div>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
 
-              {/* Premium */}
-              <div className="p-4 rounded-2xl bg-stone-100">
-                <div className="font-extrabold text-lg mb-2" style={{ color: "#00B894" }}>
-                  Oportunidades en Premium/Business
-                </div>
-                <div className="mt-2 text-base leading-relaxed text-gray-900">
-                  Encontrá Upgrades y tarifas especiales para viajar como te mereces.
-                </div>
-              </div>
+  {/* Premium */}
+  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="font-extrabold text-lg mb-2 text-green-600">
+      Oportunidades en Premium/Business
+    </div>
+    <div className="mt-2 text-base leading-relaxed text-gray-900">
+      Encontrá Upgrades y tarifas especiales para viajar como te mereces.
+    </div>
+  </div>
+
+  {/* Link a Stopover */}
+  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+    <div className="font-extrabold text-lg mb-2 text-green-600">
+      Link a Stopover
+    </div>
+    <div className="mt-2 text-base leading-relaxed text-gray-900">
+      Contacto directo con la Aerolínea
+    </div>
+  </div>
+
 
               {/* Botones extras */}
               <div className="space-y-3">
