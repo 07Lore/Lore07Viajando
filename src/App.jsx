@@ -208,7 +208,7 @@ export default function App() {
 
           {/* Right */}
 <aside className="space-y-4">
-  {/* Tips */}
+  {/* Tips → alineado con tarjetas */}
   <button
     type="button"
     className="w-full text-left p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer"
@@ -222,7 +222,7 @@ export default function App() {
   </button>
 
   {/* Calendario */}
-  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+  <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
     <div className="font-extrabold text-lg mb-2 text-green-600">
       Calendario con Mejores Precios
     </div>
@@ -243,7 +243,7 @@ export default function App() {
   </div>
 
   {/* Premium */}
-  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+  <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
     <div className="font-extrabold text-lg mb-2 text-green-600">
       Oportunidades en Premium/Business
     </div>
@@ -253,7 +253,7 @@ export default function App() {
   </div>
 
   {/* Link a Stopover */}
-  <div className="p-4 rounded-2xl bg-[#F5EBDD]">
+  <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
     <div className="font-extrabold text-lg mb-2 text-green-600">
       Link a Stopover
     </div>
@@ -262,21 +262,20 @@ export default function App() {
     </div>
   </div>
 
-
-              {/* Botones extras */}
-              <div className="space-y-3">
-                {["Filtros", "Ordenar", "Guardados"].map((txt, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer"
-                    style={{ backgroundColor: #F5EBDD", color: "#1E1E1E" }} // F5F5F4 ≈ stone-100
-                  >
-                    {txt}
-                  </button>
-                ))}
-              </div>
-            </aside>
+  {/* Botones extras */}
+  <div className="space-y-3">
+    {["Filtros", "Ordenar", "Guardados"].map((txt, i) => (
+      <button
+        key={i}
+        type="button"
+        className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer"
+        style={{ backgroundColor: "#F5EBDD", color: "orange" }}
+      >
+        {txt}
+      </button>
+    ))}
+  </div>
+</aside>
           </div>
         </section>
 
