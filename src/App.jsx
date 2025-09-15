@@ -167,7 +167,7 @@ export default function App() {
           </div>
 
           <div className="hidden md:block">
-            <span className="px-3 py-1 rounded-full bg-stone-100 text-orange-500 font-bold border">
+            <span className="px-3 py-1 rounded-full bg-[#F5EBDD] text-orange-500 font-bold border">
               Soporte: info@lore07viajando.com
             </span>
           </div>
