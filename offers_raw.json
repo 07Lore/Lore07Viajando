@@ -1,0 +1,651 @@
+[
+  {
+    "type": "flight-offer",
+    "id": "1",
+    "source": "GDS",
+    "instantTicketingRequired": false,
+    "nonHomogeneous": false,
+    "oneWay": false,
+    "isUpsellOffer": false,
+    "lastTicketingDate": "2025-09-20",
+    "lastTicketingDateTime": "2025-09-20",
+    "numberOfBookableSeats": 7,
+    "itineraries": [
+      {
+        "duration": "PT16H20M",
+        "segments": [
+          {
+            "departure": {
+              "iataCode": "EZE",
+              "terminal": "P",
+              "at": "2025-12-05T23:55:00"
+            },
+            "arrival": {
+              "iataCode": "MAD",
+              "terminal": "1",
+              "at": "2025-12-06T16:10:00"
+            },
+            "carrierCode": "AR",
+            "number": "1132",
+            "aircraft": {
+              "code": "330"
+            },
+            "operating": {
+              "carrierCode": "AR"
+            },
+            "duration": "PT12H15M",
+            "id": "3",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          },
+          {
+            "departure": {
+              "iataCode": "MAD",
+              "terminal": "2",
+              "at": "2025-12-06T19:05:00"
+            },
+            "arrival": {
+              "iataCode": "AGP",
+              "at": "2025-12-06T20:15:00"
+            },
+            "carrierCode": "UX",
+            "number": "5047",
+            "aircraft": {
+              "code": "73H"
+            },
+            "operating": {
+              "carrierCode": "UX"
+            },
+            "duration": "PT1H10M",
+            "id": "4",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          }
+        ]
+      }
+    ],
+    "price": {
+      "currency": "EUR",
+      "total": "670.05",
+      "base": "327.00",
+      "fees": [
+        {
+          "amount": "0.00",
+          "type": "SUPPLIER"
+        },
+        {
+          "amount": "0.00",
+          "type": "TICKETING"
+        }
+      ],
+      "grandTotal": "670.05"
+    },
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED"
+      ],
+      "includedCheckedBagsOnly": true
+    },
+    "validatingAirlineCodes": [
+      "AR"
+    ],
+    "travelerPricings": [
+      {
+        "travelerId": "1",
+        "fareOption": "STANDARD",
+        "travelerType": "ADULT",
+        "price": {
+          "currency": "EUR",
+          "total": "670.05",
+          "base": "327.00"
+        },
+        "fareDetailsBySegment": [
+          {
+            "segmentId": "3",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "T",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "weight": 10,
+              "weightUnit": "KG"
+            }
+          },
+          {
+            "segmentId": "4",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "Q",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "flight-offer",
+    "id": "2",
+    "source": "GDS",
+    "instantTicketingRequired": false,
+    "nonHomogeneous": false,
+    "oneWay": false,
+    "isUpsellOffer": false,
+    "lastTicketingDate": "2025-09-18",
+    "lastTicketingDateTime": "2025-09-18",
+    "numberOfBookableSeats": 4,
+    "itineraries": [
+      {
+        "duration": "PT23H35M",
+        "segments": [
+          {
+            "departure": {
+              "iataCode": "EZE",
+              "terminal": "P",
+              "at": "2025-12-05T19:45:00"
+            },
+            "arrival": {
+              "iataCode": "BCN",
+              "terminal": "1",
+              "at": "2025-12-06T12:20:00"
+            },
+            "carrierCode": "IB",
+            "number": "2604",
+            "aircraft": {
+              "code": "332"
+            },
+            "operating": {
+              "carrierName": "IBERIA FOR LEVEL"
+            },
+            "duration": "PT12H35M",
+            "id": "5",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          },
+          {
+            "departure": {
+              "iataCode": "BCN",
+              "terminal": "1",
+              "at": "2025-12-06T21:40:00"
+            },
+            "arrival": {
+              "iataCode": "AGP",
+              "at": "2025-12-06T23:20:00"
+            },
+            "carrierCode": "IB",
+            "number": "5005",
+            "aircraft": {
+              "code": "320"
+            },
+            "operating": {
+              "carrierCode": "VY"
+            },
+            "duration": "PT1H40M",
+            "id": "6",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          }
+        ]
+      }
+    ],
+    "price": {
+      "currency": "EUR",
+      "total": "670.07",
+      "base": "554.00",
+      "fees": [
+        {
+          "amount": "0.00",
+          "type": "SUPPLIER"
+        },
+        {
+          "amount": "0.00",
+          "type": "TICKETING"
+        }
+      ],
+      "grandTotal": "670.07"
+    },
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED"
+      ],
+      "includedCheckedBagsOnly": true
+    },
+    "validatingAirlineCodes": [
+      "IB"
+    ],
+    "travelerPricings": [
+      {
+        "travelerId": "1",
+        "fareOption": "STANDARD",
+        "travelerType": "ADULT",
+        "price": {
+          "currency": "EUR",
+          "total": "670.07",
+          "base": "554.00"
+        },
+        "fareDetailsBySegment": [
+          {
+            "segmentId": "5",
+            "cabin": "ECONOMY",
+            "fareBasis": "NNL3NOGN",
+            "class": "N",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 2
+            }
+          },
+          {
+            "segmentId": "6",
+            "cabin": "ECONOMY",
+            "fareBasis": "AOVYN4",
+            "class": "A",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "flight-offer",
+    "id": "3",
+    "source": "GDS",
+    "instantTicketingRequired": false,
+    "nonHomogeneous": false,
+    "oneWay": false,
+    "isUpsellOffer": false,
+    "lastTicketingDate": "2025-09-20",
+    "lastTicketingDateTime": "2025-09-20",
+    "numberOfBookableSeats": 7,
+    "itineraries": [
+      {
+        "duration": "PT27H50M",
+        "segments": [
+          {
+            "departure": {
+              "iataCode": "EZE",
+              "terminal": "P",
+              "at": "2025-12-05T23:55:00"
+            },
+            "arrival": {
+              "iataCode": "MAD",
+              "terminal": "1",
+              "at": "2025-12-06T16:10:00"
+            },
+            "carrierCode": "AR",
+            "number": "1132",
+            "aircraft": {
+              "code": "330"
+            },
+            "operating": {
+              "carrierCode": "AR"
+            },
+            "duration": "PT12H15M",
+            "id": "7",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          },
+          {
+            "departure": {
+              "iataCode": "MAD",
+              "terminal": "2",
+              "at": "2025-12-07T06:35:00"
+            },
+            "arrival": {
+              "iataCode": "AGP",
+              "at": "2025-12-07T07:45:00"
+            },
+            "carrierCode": "UX",
+            "number": "5035",
+            "aircraft": {
+              "code": "73H"
+            },
+            "operating": {
+              "carrierCode": "UX"
+            },
+            "duration": "PT1H10M",
+            "id": "8",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          }
+        ]
+      }
+    ],
+    "price": {
+      "currency": "EUR",
+      "total": "677.57",
+      "base": "327.00",
+      "fees": [
+        {
+          "amount": "0.00",
+          "type": "SUPPLIER"
+        },
+        {
+          "amount": "0.00",
+          "type": "TICKETING"
+        }
+      ],
+      "grandTotal": "677.57"
+    },
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED"
+      ],
+      "includedCheckedBagsOnly": true
+    },
+    "validatingAirlineCodes": [
+      "AR"
+    ],
+    "travelerPricings": [
+      {
+        "travelerId": "1",
+        "fareOption": "STANDARD",
+        "travelerType": "ADULT",
+        "price": {
+          "currency": "EUR",
+          "total": "677.57",
+          "base": "327.00"
+        },
+        "fareDetailsBySegment": [
+          {
+            "segmentId": "7",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "T",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "weight": 10,
+              "weightUnit": "KG"
+            }
+          },
+          {
+            "segmentId": "8",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "Q",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "flight-offer",
+    "id": "4",
+    "source": "GDS",
+    "instantTicketingRequired": false,
+    "nonHomogeneous": false,
+    "oneWay": false,
+    "isUpsellOffer": false,
+    "lastTicketingDate": "2025-09-20",
+    "lastTicketingDateTime": "2025-09-20",
+    "numberOfBookableSeats": 7,
+    "itineraries": [
+      {
+        "duration": "PT31H50M",
+        "segments": [
+          {
+            "departure": {
+              "iataCode": "EZE",
+              "terminal": "P",
+              "at": "2025-12-05T23:55:00"
+            },
+            "arrival": {
+              "iataCode": "MAD",
+              "terminal": "1",
+              "at": "2025-12-06T16:10:00"
+            },
+            "carrierCode": "AR",
+            "number": "1132",
+            "aircraft": {
+              "code": "330"
+            },
+            "operating": {
+              "carrierCode": "AR"
+            },
+            "duration": "PT12H15M",
+            "id": "9",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          },
+          {
+            "departure": {
+              "iataCode": "MAD",
+              "terminal": "2",
+              "at": "2025-12-07T10:35:00"
+            },
+            "arrival": {
+              "iataCode": "AGP",
+              "at": "2025-12-07T11:45:00"
+            },
+            "carrierCode": "UX",
+            "number": "5043",
+            "aircraft": {
+              "code": "73H"
+            },
+            "operating": {
+              "carrierCode": "UX"
+            },
+            "duration": "PT1H10M",
+            "id": "10",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          }
+        ]
+      }
+    ],
+    "price": {
+      "currency": "EUR",
+      "total": "677.57",
+      "base": "327.00",
+      "fees": [
+        {
+          "amount": "0.00",
+          "type": "SUPPLIER"
+        },
+        {
+          "amount": "0.00",
+          "type": "TICKETING"
+        }
+      ],
+      "grandTotal": "677.57"
+    },
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED"
+      ],
+      "includedCheckedBagsOnly": true
+    },
+    "validatingAirlineCodes": [
+      "AR"
+    ],
+    "travelerPricings": [
+      {
+        "travelerId": "1",
+        "fareOption": "STANDARD",
+        "travelerType": "ADULT",
+        "price": {
+          "currency": "EUR",
+          "total": "677.57",
+          "base": "327.00"
+        },
+        "fareDetailsBySegment": [
+          {
+            "segmentId": "9",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "T",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "weight": 10,
+              "weightUnit": "KG"
+            }
+          },
+          {
+            "segmentId": "10",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "Q",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "flight-offer",
+    "id": "5",
+    "source": "GDS",
+    "instantTicketingRequired": false,
+    "nonHomogeneous": false,
+    "oneWay": false,
+    "isUpsellOffer": false,
+    "lastTicketingDate": "2025-09-20",
+    "lastTicketingDateTime": "2025-09-20",
+    "numberOfBookableSeats": 7,
+    "itineraries": [
+      {
+        "duration": "PT36H15M",
+        "segments": [
+          {
+            "departure": {
+              "iataCode": "EZE",
+              "terminal": "P",
+              "at": "2025-12-05T23:55:00"
+            },
+            "arrival": {
+              "iataCode": "MAD",
+              "terminal": "1",
+              "at": "2025-12-06T16:10:00"
+            },
+            "carrierCode": "AR",
+            "number": "1132",
+            "aircraft": {
+              "code": "330"
+            },
+            "operating": {
+              "carrierCode": "AR"
+            },
+            "duration": "PT12H15M",
+            "id": "1",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          },
+          {
+            "departure": {
+              "iataCode": "MAD",
+              "terminal": "2",
+              "at": "2025-12-07T15:00:00"
+            },
+            "arrival": {
+              "iataCode": "AGP",
+              "at": "2025-12-07T16:10:00"
+            },
+            "carrierCode": "UX",
+            "number": "5039",
+            "aircraft": {
+              "code": "73H"
+            },
+            "operating": {
+              "carrierCode": "UX"
+            },
+            "duration": "PT1H10M",
+            "id": "2",
+            "numberOfStops": 0,
+            "blacklistedInEU": false
+          }
+        ]
+      }
+    ],
+    "price": {
+      "currency": "EUR",
+      "total": "677.57",
+      "base": "327.00",
+      "fees": [
+        {
+          "amount": "0.00",
+          "type": "SUPPLIER"
+        },
+        {
+          "amount": "0.00",
+          "type": "TICKETING"
+        }
+      ],
+      "grandTotal": "677.57"
+    },
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED"
+      ],
+      "includedCheckedBagsOnly": true
+    },
+    "validatingAirlineCodes": [
+      "AR"
+    ],
+    "travelerPricings": [
+      {
+        "travelerId": "1",
+        "fareOption": "STANDARD",
+        "travelerType": "ADULT",
+        "price": {
+          "currency": "EUR",
+          "total": "677.57",
+          "base": "327.00"
+        },
+        "fareDetailsBySegment": [
+          {
+            "segmentId": "1",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "T",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "weight": 10,
+              "weightUnit": "KG"
+            }
+          },
+          {
+            "segmentId": "2",
+            "cabin": "ECONOMY",
+            "fareBasis": "TLXTZ2EP",
+            "class": "Q",
+            "includedCheckedBags": {
+              "quantity": 1
+            },
+            "includedCabinBags": {
+              "quantity": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

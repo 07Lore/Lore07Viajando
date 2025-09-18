@@ -1,3 +1,4 @@
+
 // src/App.jsx
 import React, { useState } from "react";
 import SearchForm from "./components/SearchForm";
@@ -294,3 +295,4 @@ export default function App() {
     </div>
   );
 }
+
