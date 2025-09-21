@@ -7,6 +7,48 @@ import FlightCard from "./components/FlightCard";
 import "./styles.css";
 import FlightSearch from "./components/FlightSearch";
 
+/* --- Helper: lee ofertas desde public/offers.json --- */
+async function loadOffersFromPublic(params) {
+  try {
+    const resp = await fetch("/offers.json");
+    if (!resp.ok) return null;
+    const data = await resp.json();
+
+    const mapped = data.map((o, idx) => {
+      let priceNum = null,
+        currency = null;
+      if (o.price) {
+        const parts = String(o.price).trim().split(" ");
+        const numStr = parts[0].replace(",", ".");
+        const parsed = parseFloat(numStr);
+        if (!Number.isNaN(parsed)) priceNum = parsed;
+        currency = parts[1] || "";
+      }
+
+      return {
+        id: o.id || `offer-${idx}`,
+        price: priceNum !== null ? priceNum : o.price || null,
+        currency: currency || "USD",
+        airline: o.airline || "N/A",
+        from: (params && params.from) || "EZE",
+        to: (params && params.to) || "MAD",
+        depart: o.depart || "",
+        arrive: o.arrive || "",
+        duration: o.duration || `${o.segments || "?"} segmentos`,
+        cabin: o.cabin || "Economy",
+        stopover: o.stopover || null,
+        benefits: o.benefits || null,
+        buyLink: o.buyLink || "#",
+        paymentOptions: o.paymentOptions || []
+      };
+    });
+
+    return mapped;
+  } catch (err) {
+    console.warn("No se pudo leer /offers.json:", err);
+    return null;
+  }
+}
 
 /* --- Mocked helper: simula búsqueda de vuelos (reemplazar por API real) --- */
 function simulateFetchFlights(params) {
@@ -98,8 +140,15 @@ function simulateFetchFlights(params) {
       let flights = base;
       if (params && params.airline) {
         const al = params.airline.toString().toLowerCase();
-        if (al && al !== "todas / cualquiera" && al !== "todas" && al !== "cualquiera") {
-          flights = base.filter((f) => f.airline.toLowerCase().includes(al));
+        if (
+          al &&
+          al !== "todas / cualquiera" &&
+          al !== "todas" &&
+          al !== "cualquiera"
+        ) {
+          flights = base.filter((f) =>
+            f.airline.toLowerCase().includes(al)
+          );
         }
       }
 
@@ -133,15 +182,24 @@ export default function App() {
     setRecommendation(null);
     setCalendar([]);
     try {
-      const data = await simulateFetchFlights(params || {});
-      if (!data || !data.flights || data.flights.length === 0) {
-        setError("No hay vuelos disponibles para esos parámetros.");
-        setFlights([]);
+      // 👇 Primero intento leer offers.json
+      const localOffers = await loadOffersFromPublic(params);
+      if (localOffers && localOffers.length > 0) {
+        setFlights(localOffers);
+        setRecommendation("Ofertas leídas desde archivo local.");
+        setCalendar([]);
       } else {
-        setFlights(data.flights);
+        // 👇 Si no hay archivo o está vacío → mock
+        const data = await simulateFetchFlights(params || {});
+        if (!data || !data.flights || data.flights.length === 0) {
+          setError("No hay vuelos disponibles para esos parámetros.");
+          setFlights([]);
+        } else {
+          setFlights(data.flights);
+        }
+        setRecommendation(data.recommendedSave || null);
+        setCalendar(data.calendar || []);
       }
-      setRecommendation(data.recommendedSave || null);
-      setCalendar(data.calendar || []);
     } catch (err) {
       console.error(err);
       setError("Ocurrió un error buscando vuelos. Intentá nuevamente.");
@@ -179,7 +237,6 @@ export default function App() {
 
       {/* MAIN */}
       <main className="max-w-6xl mx-auto">
-
         {/* 👇 Nuevo buscador real con Amadeus */}
         <FlightSearch />
 
@@ -188,10 +245,11 @@ export default function App() {
 
         <section className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
             {/* Left */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="text-lg font-semibold text-stone-100">Resultados</div>
+              <div className="text-lg font-semibold text-stone-100">
+                Resultados
+              </div>
 
               {loading && <Loader text="Buscando mejores opciones..." />}
 
@@ -203,7 +261,8 @@ export default function App() {
 
               {!loading && !error && flights.length === 0 && (
                 <div className="p-6 rounded-2xl bg-gray-800/40 text-stone-100">
-                  Los resultados aparecerán aquí. Probá con otro destino o buscá ofertas último momento.
+                  Los resultados aparecerán aquí. Probá con otro destino o buscá
+                  ofertas último momento.
                 </div>
               )}
 
@@ -216,7 +275,7 @@ export default function App() {
 
             {/* Right */}
             <aside className="space-y-4">
-              {/* Tips → alineado con tarjetas */}
+              {/* Tips */}
               <button
                 type="button"
                 className="w-full text-left p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer"
@@ -239,9 +298,13 @@ export default function App() {
                     <div>No hay datos de calendario.</div>
                   ) : (
                     calendar.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between">
+                      <div
+                        key={i}
+                        className="flex items-center justify-between"
+                      >
                         <div>
-                          {c.month} • <span className="font-semibold">{c.bestDay}</span>
+                          {c.month} •{" "}
+                          <span className="font-semibold">{c.bestDay}</span>
                         </div>
                         <div className="font-bold">{c.price}</div>
                       </div>
@@ -256,11 +319,12 @@ export default function App() {
                   Oportunidades en Premium/Business
                 </div>
                 <div className="mt-2 text-base leading-relaxed text-gray-900">
-                  Encontrá Upgrades y tarifas especiales para viajar como te mereces.
+                  Encontrá Upgrades y tarifas especiales para viajar como te
+                  mereces.
                 </div>
               </div>
 
-              {/* Link a Stopover */}
+              {/* Stopover */}
               <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
                 <div className="font-extrabold text-lg mb-2 text-green-600">
                   Link a Stopover
@@ -289,10 +353,10 @@ export default function App() {
 
         {/* FOOTER */}
         <footer className="mt-10 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos simulados).
+          © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos
+          simulados).
         </footer>
       </main>
     </div>
   );
 }
-

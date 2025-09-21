@@ -143,3 +143,6 @@ vite.config.ts.timestamp-*
 Thumbs.db
 *.rtf
 
+/public/offers.json
+/src/App.jsx.bak
+
