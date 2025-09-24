@@ -1,3 +1,5 @@
+
+// src/components/SearchForm.jsx
 import React, { useState } from "react";
 
 export default function SearchForm({ onSearch }) {
@@ -7,53 +9,71 @@ export default function SearchForm({ onSearch }) {
   const [flexible, setFlexible] = useState(false);
   const [airline, setAirline] = useState("Todas / Cualquiera");
   const [stops, setStops] = useState("Cualquiera");
+  const [multidest, setMultidest] = useState(false);
+  const [destinations, setDestinations] = useState(["Cualquiera"]); // si multidest true, usa este array
+
+  // construir payload común
+  function buildPayload(extra = {}) {
+    const payload = {
+      from,
+      airline,
+      flexible,
+      stops,
+      date: flexible ? null : date || null,
+      ...extra
+    };
+
+    if (multidest) {
+      // limpiamos destinos vacíos y pasamos array
+      payload.multiDest = destinations.filter((d) => !!d && d !== "Cualquiera");
+      // para compatibilidad también dejamos 'to' como el primer valor si existe
+      payload.to = payload.multiDest.length > 0 ? payload.multiDest[0] : "Cualquiera";
+    } else {
+      payload.to = to;
+    }
+
+    return payload;
+  }
 
   function submit(e) {
     if (e) e.preventDefault();
-    onSearch &&
-      onSearch({
-        from,
-        to,
-        date: flexible ? null : date || null,
-        flexible,
-        airline,
-        stops,
-      });
+    const payload = buildPayload();
+    console.log("SEARCH PAYLOAD", payload);
+    onSearch && onSearch(payload);
   }
 
   function quick(e) {
     if (e) e.preventDefault();
-    onSearch &&
-      onSearch({
-        from,
-        to,
-        date: flexible ? null : date || null,
-        flexible,
-        airline,
-        stops,
-        quick: true,
-      });
+    const payload = buildPayload({ quick: true });
+    console.log("SEARCH PAYLOAD (quick)", payload);
+    onSearch && onSearch(payload);
   }
 
   function nearby(e) {
     if (e) e.preventDefault();
-    onSearch &&
-      onSearch({
-        from,
-        to,
-        date: flexible ? null : date || null,
-        flexible,
-        airline,
-        stops,
-        nearby: true,
-      });
+    const payload = buildPayload({ nearby: true });
+    console.log("SEARCH PAYLOAD (nearby)", payload);
+    onSearch && onSearch(payload);
+  }
+
+  // multidest handlers
+  function addDestination() {
+    if (destinations.length >= 3) return; // límite 3
+    setDestinations([...destinations, "Cualquiera"]);
+  }
+  function updateDestination(i, val) {
+    const arr = [...destinations];
+    arr[i] = val;
+    setDestinations(arr);
+  }
+  function removeDestination(i) {
+    const arr = destinations.filter((_, idx) => idx !== i);
+    setDestinations(arr.length ? arr : ["Cualquiera"]);
   }
 
   return (
     <form onSubmit={submit} className="w-full">
-      {/* contenedor oscuro del form */}
       <div className="w-full bg-gray-900/60 rounded-xl p-5">
-        {/* Fila única: flex-nowrap + overflow-x-auto para que no se rompa en varias líneas */}
         <div className="flex flex-nowrap items-end gap-6 overflow-x-auto">
           {/* Origen */}
           <div className="flex-shrink-0 min-w-[14rem]">
@@ -70,22 +90,61 @@ export default function SearchForm({ onSearch }) {
             </select>
           </div>
 
-          {/* Destino */}
+          {/* Destino (o multidestinations) */}
           <div className="flex-shrink-0 min-w-[14rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Destino</label>
-            <select
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-            >
-              <option value="Cualquiera">Cualquiera</option>
-              <option value="MAD">MAD</option>
-              <option value="NYC">NYC</option>
-              <option value="MIA">MIA</option>
-            </select>
+
+            {!multidest ? (
+              <select
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+                className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+              >
+                <option value="Cualquiera">Cualquiera</option>
+                <option value="MAD">MAD</option>
+                <option value="NYC">NYC</option>
+                <option value="MIA">MIA</option>
+              </select>
+            ) : (
+              <div className="space-y-2">
+                {destinations.map((d, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <select
+                      value={d}
+                      onChange={(e) => updateDestination(i, e.target.value)}
+                      className="p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none min-w-[12rem]"
+                    >
+                      <option value="Cualquiera">Cualquiera</option>
+                      <option value="MAD">MAD</option>
+                      <option value="NYC">NYC</option>
+                      <option value="MIA">MIA</option>
+                      <option value="LON">LON</option>
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => removeDestination(i)}
+                      className="px-2 py-1 bg-red-600 text-white rounded"
+                      title="Quitar destino"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <div>
+                  <button
+                    type="button"
+                    onClick={addDestination}
+                    className="px-3 py-1 bg-gray-700 text-white rounded"
+                    disabled={destinations.length >= 3}
+                  >
+                    + Agregar destino (máx 3)
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Fecha (+ Flexible dentro del campo) */}
+          {/* Fecha (+ Flexible) */}
           <div className="flex-shrink-0 min-w-[16rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Fecha</label>
             <div className="flex items-center gap-3">
@@ -94,6 +153,7 @@ export default function SearchForm({ onSearch }) {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
+                disabled={flexible}
               />
               <label className="flex items-center gap-2 text-sm text-[#F5EBDD]">
                 <input
@@ -131,15 +191,25 @@ export default function SearchForm({ onSearch }) {
               className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
             >
               <option value="Cualquiera">Cualquiera</option>
-              <option value="0">0 (Directo)</option>
+              <option value="Ninguna">Ninguna</option>
               <option value="1">1</option>
               <option value="2+">2 o más</option>
             </select>
           </div>
         </div>
 
-        {/* Botones: en una línea abajo; si necesitas que estén en la misma fila superior lo adaptamos */}
+        {/* Multidest toggle + botones */}
         <div className="mt-5 flex flex-wrap items-center gap-4">
+          <label className="flex items-center gap-2 text-sm text-[#F5EBDD]">
+            <input
+              type="checkbox"
+              checked={multidest}
+              onChange={(e) => setMultidest(e.target.checked)}
+              className="accent-emerald-400"
+            />
+            <span>Multidestino</span>
+          </label>
+
           <button
             type="submit"
             className="px-8 py-3 rounded-lg bg-emerald-500 text-white font-bold shadow"

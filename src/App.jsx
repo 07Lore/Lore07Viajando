@@ -5,7 +5,6 @@ import SearchForm from "./components/SearchForm";
 import Loader from "./components/Loader";
 import FlightCard from "./components/FlightCard";
 import "./styles.css";
-import FlightSearch from "./components/FlightSearch";
 
 /* --- Helper: lee ofertas desde public/offers.json --- */
 async function loadOffersFromPublic(params) {
@@ -54,34 +53,6 @@ async function loadOffersFromPublic(params) {
 function simulateFetchFlights(params) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      if (params && params.quick) {
-        return resolve({
-          flights: [
-            {
-              id: "last1",
-              price: 420,
-              currency: "USD",
-              airline: "Iberia",
-              from: "EZE",
-              to: "MAD",
-              depart: "2025-10-01 23:30",
-              arrive: "2025-10-02 14:10",
-              duration: "12h 40m",
-              cabin: "Business - Oferta Último Momento",
-              stopover: { time: "2h", city: "GRU" },
-              benefits: "1 noche gratis en destino",
-              buyLink: "https://example.com/buy/last1",
-              paymentOptions: ["Tarjeta", "Cuotas", "Millas"]
-            }
-          ],
-          recommendedSave: "Viajar martes suele ser 20% más barato",
-          calendar: [
-            { month: "Oct 2025", bestDay: "Mar 14", price: "USD 650" },
-            { month: "Nov 2025", bestDay: "Mar 21", price: "USD 620" }
-          ]
-        });
-      }
-
       if (params && params.to && params.to.toLowerCase() === "nope") {
         return resolve({ flights: [], recommendedSave: null, calendar: [] });
       }
@@ -137,25 +108,10 @@ function simulateFetchFlights(params) {
         }
       ];
 
-      let flights = base;
-      if (params && params.airline) {
-        const al = params.airline.toString().toLowerCase();
-        if (
-          al &&
-          al !== "todas / cualquiera" &&
-          al !== "todas" &&
-          al !== "cualquiera"
-        ) {
-          flights = base.filter((f) =>
-            f.airline.toLowerCase().includes(al)
-          );
-        }
-      }
-
       const recommendedSave =
         "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.";
 
-      resolve({ flights, recommendedSave, calendar: generateCheapCalendar() });
+      resolve({ flights: base, recommendedSave, calendar: generateCheapCalendar() });
     }, 1000 + Math.random() * 600);
   });
 }
@@ -182,14 +138,12 @@ export default function App() {
     setRecommendation(null);
     setCalendar([]);
     try {
-      // 👇 Primero intento leer offers.json
       const localOffers = await loadOffersFromPublic(params);
       if (localOffers && localOffers.length > 0) {
         setFlights(localOffers);
         setRecommendation("Ofertas leídas desde archivo local.");
         setCalendar([]);
       } else {
-        // 👇 Si no hay archivo o está vacío → mock
         const data = await simulateFetchFlights(params || {});
         if (!data || !data.flights || data.flights.length === 0) {
           setError("No hay vuelos disponibles para esos parámetros.");
@@ -237,10 +191,7 @@ export default function App() {
 
       {/* MAIN */}
       <main className="max-w-6xl mx-auto">
-        {/* 👇 Nuevo buscador real con Amadeus */}
-        <FlightSearch />
-
-        {/* 👇 Buscador actual con datos simulados */}
+        {/* 👇 Un único buscador */}
         <SearchForm onSearch={handleSearch} />
 
         <section className="mt-6">
