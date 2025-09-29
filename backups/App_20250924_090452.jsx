@@ -1,0 +1,313 @@
+
+// src/App.jsx
+import React, { useState } from "react";
+import SearchForm from "./components/SearchForm";
+import Loader from "./components/Loader";
+import FlightCard from "./components/FlightCard";
+import "./styles.css";
+
+/* --- Helper: lee ofertas desde public/offers.json --- */
+async function loadOffersFromPublic(params) {
+  try {
+    const resp = await fetch("/offers.json");
+    if (!resp.ok) return null;
+    const data = await resp.json();
+
+    const mapped = data.map((o, idx) => {
+      let priceNum = null,
+        currency = null;
+      if (o.price) {
+        const parts = String(o.price).trim().split(" ");
+        const numStr = parts[0].replace(",", ".");
+        const parsed = parseFloat(numStr);
+        if (!Number.isNaN(parsed)) priceNum = parsed;
+        currency = parts[1] || "";
+      }
+
+      return {
+        id: o.id || `offer-${idx}`,
+        price: priceNum !== null ? priceNum : o.price || null,
+        currency: currency || "USD",
+        airline: o.airline || "N/A",
+        from: (params && params.from) || "EZE",
+        to: (params && params.to) || "MAD",
+        depart: o.depart || "",
+        arrive: o.arrive || "",
+        duration: o.duration || `${o.segments || "?"} segmentos`,
+        cabin: o.cabin || "Economy",
+        stopover: o.stopover || null,
+        benefits: o.benefits || null,
+        buyLink: o.buyLink || "#",
+        paymentOptions: o.paymentOptions || []
+      };
+    });
+
+    return mapped;
+  } catch (err) {
+    console.warn("No se pudo leer /offers.json:", err);
+    return null;
+  }
+}
+
+/* --- Mocked helper: simula búsqueda de vuelos (reemplazar por API real) --- */
+function simulateFetchFlights(params) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      if (params && params.to && params.to.toLowerCase() === "nope") {
+        return resolve({ flights: [], recommendedSave: null, calendar: [] });
+      }
+
+      const base = [
+        {
+          id: "f1",
+          price: 720,
+          currency: "USD",
+          airline: "KLM",
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 10:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 22:00`,
+          duration: "12h",
+          cabin: "Economy",
+          stopover: { time: "3h", city: "AMS" },
+          benefits: "1-3 noches gratis en Ámsterdam",
+          buyLink: "https://example.com/buy/f1",
+          paymentOptions: ["Tarjeta", "Cuotas"]
+        },
+        {
+          id: "f2",
+          price: 980,
+          currency: "USD",
+          airline: "Air France",
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 06:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 18:00`,
+          duration: "12h",
+          cabin: "Premium Economy",
+          stopover: null,
+          benefits: null,
+          buyLink: "https://example.com/buy/f2",
+          paymentOptions: ["Tarjeta", "Millas"]
+        },
+        {
+          id: "f3",
+          price: 1600,
+          currency: "USD",
+          airline: "Iberia",
+          from: (params && params.from) || "EZE",
+          to: (params && params.to) || "MAD",
+          depart: `${(params && params.date) || "2025-10-10"} 09:00`,
+          arrive: `${(params && params.date) || "2025-10-10"} 21:00`,
+          duration: "12h",
+          cabin: "Business",
+          stopover: null,
+          benefits: "Upgrade con diferencia mínima",
+          buyLink: "https://example.com/buy/f3",
+          paymentOptions: ["Tarjeta", "Cuotas", "Millas"]
+        }
+      ];
+
+      const recommendedSave =
+        "Conviene comprar con 60 días de anticipación para ahorrar hasta 25%.";
+
+      resolve({ flights: base, recommendedSave, calendar: generateCheapCalendar() });
+    }, 1000 + Math.random() * 600);
+  });
+}
+
+function generateCheapCalendar() {
+  return [
+    { month: "Oct 2025", bestDay: "14 Oct", price: "USD 650" },
+    { month: "Nov 2025", bestDay: "21 Nov", price: "USD 620" }
+  ];
+}
+
+/* --- App principal --- */
+export default function App() {
+  const [loading, setLoading] = useState(false);
+  const [flights, setFlights] = useState([]);
+  const [error, setError] = useState(null);
+  const [recommendation, setRecommendation] = useState(null);
+  const [calendar, setCalendar] = useState([]);
+
+  async function handleSearch(params) {
+    setError(null);
+    setLoading(true);
+    setFlights([]);
+    setRecommendation(null);
+    setCalendar([]);
+    try {
+      const localOffers = await loadOffersFromPublic(params);
+      if (localOffers && localOffers.length > 0) {
+        setFlights(localOffers);
+        setRecommendation("Ofertas leídas desde archivo local.");
+        setCalendar([]);
+      } else {
+        const data = await simulateFetchFlights(params || {});
+        if (!data || !data.flights || data.flights.length === 0) {
+          setError("No hay vuelos disponibles para esos parámetros.");
+          setFlights([]);
+        } else {
+          setFlights(data.flights);
+        }
+        setRecommendation(data.recommendedSave || null);
+        setCalendar(data.calendar || []);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Ocurrió un error buscando vuelos. Intentá nuevamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen p-6 bg-gray-900">
+      {/* HEADER */}
+      <header className="max-w-6xl mx-auto mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-emerald-300 text-white text-2xl font-bold">
+              ✈️
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold text-orange-500">
+                Lore07 Viajando
+              </h1>
+              <div className="text-sm font-bold text-stone-100">
+                Tu App de Vuelos Inteligente
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden md:block">
+            <span className="px-3 py-1 rounded-full bg-[#F5EBDD] text-orange-500 font-bold border">
+              Soporte: info@lore07viajando.com
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {/* MAIN */}
+      <main className="max-w-6xl mx-auto">
+        {/* 👇 Un único buscador */}
+        <SearchForm onSearch={handleSearch} />
+
+        <section className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="text-lg font-semibold text-stone-100">
+                Resultados
+              </div>
+
+              {loading && <Loader text="Buscando mejores opciones..." />}
+
+              {error && (
+                <div className="p-4 rounded-2xl bg-red-600/20 text-red-200 font-medium">
+                  {error}
+                </div>
+              )}
+
+              {!loading && !error && flights.length === 0 && (
+                <div className="p-6 rounded-2xl bg-gray-800/40 text-stone-100">
+                  Los resultados aparecerán aquí. Probá con otro destino o buscá
+                  ofertas último momento.
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {flights.map((f) => (
+                  <FlightCard key={f.id} flight={f} />
+                ))}
+              </div>
+            </div>
+
+            {/* Right */}
+            <aside className="space-y-4">
+              {/* Tips */}
+              <button
+                type="button"
+                className="w-full text-left p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer"
+              >
+                <div className="font-extrabold text-lg mb-2 text-green-600">
+                  Tips
+                </div>
+                <div className="mt-2 text-base leading-relaxed text-gray-900">
+                  {recommendation || "Sin tips por el momento."}
+                </div>
+              </button>
+
+              {/* Calendario */}
+              <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
+                <div className="font-extrabold text-lg mb-2 text-green-600">
+                  Calendario con Mejores Precios
+                </div>
+                <div className="mt-3 space-y-3 text-base leading-relaxed text-gray-900">
+                  {calendar.length === 0 ? (
+                    <div>No hay datos de calendario.</div>
+                  ) : (
+                    calendar.map((c, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between"
+                      >
+                        <div>
+                          {c.month} •{" "}
+                          <span className="font-semibold">{c.bestDay}</span>
+                        </div>
+                        <div className="font-bold">{c.price}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Premium */}
+              <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
+                <div className="font-extrabold text-lg mb-2 text-green-600">
+                  Oportunidades en Premium/Business
+                </div>
+                <div className="mt-2 text-base leading-relaxed text-gray-900">
+                  Encontrá Upgrades y tarifas especiales para viajar como te
+                  mereces.
+                </div>
+              </div>
+
+              {/* Stopover */}
+              <div className="p-4 rounded-2xl bg-[#F5EBDD] cursor-pointer">
+                <div className="font-extrabold text-lg mb-2 text-green-600">
+                  Link a Stopover
+                </div>
+                <div className="mt-2 text-base leading-relaxed text-gray-900">
+                  Contacto directo con la Aerolínea
+                </div>
+              </div>
+
+              {/* Botones extras */}
+              <div className="space-y-3">
+                {["Filtros", "Ordenar", "Guardados"].map((txt, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className="w-full py-2 px-4 rounded-xl font-semibold shadow cursor-pointer"
+                    style={{ backgroundColor: "#F5EBDD", color: "orange" }}
+                  >
+                    {txt}
+                  </button>
+                ))}
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer className="mt-10 text-center text-sm text-gray-400">
+          © {new Date().getFullYear()} Lore07 Viajando — Demo funcional (datos
+          simulados).
+        </footer>
+      </main>
+    </div>
+  );
+}

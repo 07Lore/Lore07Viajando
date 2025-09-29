@@ -3,236 +3,121 @@
 import React, { useState } from "react";
 
 export default function SearchForm({ onSearch }) {
-  const [from, setFrom] = useState("Cualquiera");
-  const [to, setTo] = useState("Cualquiera");
+  const [from, setFrom] = useState("EZE");
+  const [to, setTo] = useState("MAD");
   const [date, setDate] = useState("");
   const [flexible, setFlexible] = useState(false);
   const [airline, setAirline] = useState("Todas / Cualquiera");
   const [stops, setStops] = useState("Cualquiera");
-  const [multidest, setMultidest] = useState(false);
-  const [destinations, setDestinations] = useState(["Cualquiera"]); // si multidest true, usa este array
-
-  // construir payload común
-  function buildPayload(extra = {}) {
-    const payload = {
-      from,
-      airline,
-      flexible,
-      stops,
-      date: flexible ? null : date || null,
-      ...extra
-    };
-
-    if (multidest) {
-      // limpiamos destinos vacíos y pasamos array
-      payload.multiDest = destinations.filter((d) => !!d && d !== "Cualquiera");
-      // para compatibilidad también dejamos 'to' como el primer valor si existe
-      payload.to = payload.multiDest.length > 0 ? payload.multiDest[0] : "Cualquiera";
-    } else {
-      payload.to = to;
-    }
-
-    return payload;
-  }
+  const [multi, setMulti] = useState(false);
+  const [legs, setLegs] = useState([{ from: "EZE", to: "MAD", date: "" }]);
 
   function submit(e) {
-    if (e) e.preventDefault();
-    const payload = buildPayload();
-    console.log("SEARCH PAYLOAD", payload);
-    onSearch && onSearch(payload);
+    e && e.preventDefault();
+    if (multi) {
+      onSearch && onSearch({ multi: true, legs, airline, stops, flexible });
+    } else {
+      onSearch && onSearch({ from, to, date: flexible ? null : date || null, flexible, airline, stops });
+    }
   }
 
   function quick(e) {
-    if (e) e.preventDefault();
-    const payload = buildPayload({ quick: true });
-    console.log("SEARCH PAYLOAD (quick)", payload);
-    onSearch && onSearch(payload);
+    e && e.preventDefault();
+    if (multi) {
+      onSearch && onSearch({ multi: true, legs, quick: true, airline, stops });
+    } else {
+      onSearch && onSearch({ from, to, quick: true, date: flexible ? null : date || null, airline, stops });
+    }
   }
 
   function nearby(e) {
-    if (e) e.preventDefault();
-    const payload = buildPayload({ nearby: true });
-    console.log("SEARCH PAYLOAD (nearby)", payload);
-    onSearch && onSearch(payload);
+    e && e.preventDefault();
+    if (multi) {
+      onSearch && onSearch({ multi: true, legs, nearby: true, airline, stops });
+    } else {
+      onSearch && onSearch({ from, to, nearby: true, date: flexible ? null : date || null, airline, stops });
+    }
   }
 
-  // multidest handlers
-  function addDestination() {
-    if (destinations.length >= 3) return; // límite 3
-    setDestinations([...destinations, "Cualquiera"]);
+  function tips(e) {
+    e && e.preventDefault();
+    onSearch && onSearch({ tips: true });
   }
-  function updateDestination(i, val) {
-    const arr = [...destinations];
-    arr[i] = val;
-    setDestinations(arr);
+
+  function addLeg() {
+    setLegs([...legs, { from: "", to: "", date: "" }]);
   }
-  function removeDestination(i) {
-    const arr = destinations.filter((_, idx) => idx !== i);
-    setDestinations(arr.length ? arr : ["Cualquiera"]);
+  function updateLeg(i, field, value) {
+    const copy = [...legs]; copy[i][field] = value; setLegs(copy);
   }
+  function removeLeg(i) { setLegs(legs.filter((_, idx) => idx !== i)); }
 
   return (
     <form onSubmit={submit} className="w-full">
       <div className="w-full bg-gray-900/60 rounded-xl p-5">
-        <div className="flex flex-nowrap items-end gap-6 overflow-x-auto">
-          {/* Origen */}
+        <div className="flex flex-wrap items-end gap-6">
           <div className="flex-shrink-0 min-w-[14rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Origen</label>
-            <select
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-            >
-              <option value="Cualquiera">Cualquiera</option>
-              <option value="EZE">EZE</option>
-              <option value="AEP">AEP</option>
-              <option value="BUE">BUE</option>
+            <select value={from} onChange={(e) => setFrom(e.target.value)} className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD]">
+              <option>EZE</option><option>AEP</option><option>BUE</option>
             </select>
           </div>
 
-          {/* Destino (o multidestinations) */}
           <div className="flex-shrink-0 min-w-[14rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Destino</label>
-
-            {!multidest ? (
-              <select
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
-                className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-              >
-                <option value="Cualquiera">Cualquiera</option>
-                <option value="MAD">MAD</option>
-                <option value="NYC">NYC</option>
-                <option value="MIA">MIA</option>
-              </select>
-            ) : (
-              <div className="space-y-2">
-                {destinations.map((d, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <select
-                      value={d}
-                      onChange={(e) => updateDestination(i, e.target.value)}
-                      className="p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none min-w-[12rem]"
-                    >
-                      <option value="Cualquiera">Cualquiera</option>
-                      <option value="MAD">MAD</option>
-                      <option value="NYC">NYC</option>
-                      <option value="MIA">MIA</option>
-                      <option value="LON">LON</option>
-                    </select>
-                    <button
-                      type="button"
-                      onClick={() => removeDestination(i)}
-                      className="px-2 py-1 bg-red-600 text-white rounded"
-                      title="Quitar destino"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-                <div>
-                  <button
-                    type="button"
-                    onClick={addDestination}
-                    className="px-3 py-1 bg-gray-700 text-white rounded"
-                    disabled={destinations.length >= 3}
-                  >
-                    + Agregar destino (máx 3)
-                  </button>
-                </div>
-              </div>
-            )}
+            <select value={to} onChange={(e) => setTo(e.target.value)} className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD]">
+              <option>MAD</option><option>NYC</option><option>MIA</option>
+            </select>
           </div>
 
-          {/* Fecha (+ Flexible) */}
           <div className="flex-shrink-0 min-w-[16rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Fecha</label>
             <div className="flex items-center gap-3">
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-                disabled={flexible}
-              />
+              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="p-2 rounded bg-gray-800 text-[#F5EBDD]" />
               <label className="flex items-center gap-2 text-sm text-[#F5EBDD]">
-                <input
-                  type="checkbox"
-                  checked={flexible}
-                  onChange={(e) => setFlexible(e.target.checked)}
-                  className="accent-emerald-400"
-                />
-                <span className="text-sm">Flexible</span>
+                <input type="checkbox" checked={flexible} onChange={(e) => setFlexible(e.target.checked)} className="accent-emerald-400" /> <span className="text-sm">Flexible</span>
               </label>
             </div>
           </div>
+        </div>
 
-          {/* Aerolínea */}
+        <div className="mt-6 p-4 bg-gray-800/50 rounded-xl space-y-4">
+          <label className="flex items-center gap-2 text-[#F5EBDD] font-semibold">
+            <input type="checkbox" checked={multi} onChange={(e) => setMulti(e.target.checked)} className="accent-emerald-400" /> Activar Multidestino
+          </label>
+
+          {multi && <div className="space-y-4">
+            {legs.map((leg, i) => (
+              <div key={i} className="flex items-center gap-3 bg-gray-700/50 p-3 rounded-lg">
+                <input type="text" placeholder="Origen (ej: EZE)" value={leg.from} onChange={(e) => updateLeg(i, "from", e.target.value)} className="p-2 rounded bg-gray-700 text-[#F5EBDD] flex-1" />
+                <input type="text" placeholder="Destino (ej: CDG)" value={leg.to} onChange={(e) => updateLeg(i, "to", e.target.value)} className="p-2 rounded bg-gray-700 text-[#F5EBDD] flex-1" />
+                <input type="date" value={leg.date} onChange={(e) => updateLeg(i, "date", e.target.value)} className="p-2 rounded bg-gray-700 text-[#F5EBDD]" />
+                <button type="button" onClick={() => removeLeg(i)} className="px-3 py-2 bg-red-500 text-white rounded">✕</button>
+              </div>
+            ))}
+            <button type="button" onClick={addLeg} className="px-4 py-2 rounded-lg bg-emerald-500 text-white font-bold shadow">➕ Agregar tramo</button>
+          </div>}
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-6">
           <div className="flex-shrink-0 min-w-[14rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Aerolínea</label>
-            <select
-              value={airline}
-              onChange={(e) => setAirline(e.target.value)}
-              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-            >
-              <option value="Todas / Cualquiera">Todas / Cualquiera</option>
-              <option value="KLM">KLM</option>
-              <option value="IB">IB</option>
-              <option value="AA">AA</option>
-            </select>
+            <input type="text" value={airline} onChange={(e) => setAirline(e.target.value)} className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD]" />
           </div>
 
-          {/* Escalas */}
           <div className="flex-shrink-0 min-w-[12rem]">
             <label className="block text-sm font-bold text-emerald-300 mb-2">Escalas</label>
-            <select
-              value={stops}
-              onChange={(e) => setStops(e.target.value)}
-              className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD] outline-none"
-            >
-              <option value="Cualquiera">Cualquiera</option>
-              <option value="Ninguna">Ninguna</option>
-              <option value="1">1</option>
-              <option value="2+">2 o más</option>
+            <select value={stops} onChange={(e) => setStops(e.target.value)} className="w-full p-2 rounded bg-gray-800 text-[#F5EBDD]">
+              <option>Cualquiera</option><option>0</option><option>1</option><option>2+</option>
             </select>
           </div>
         </div>
 
-        {/* Multidest toggle + botones */}
         <div className="mt-5 flex flex-wrap items-center gap-4">
-          <label className="flex items-center gap-2 text-sm text-[#F5EBDD]">
-            <input
-              type="checkbox"
-              checked={multidest}
-              onChange={(e) => setMultidest(e.target.checked)}
-              className="accent-emerald-400"
-            />
-            <span>Multidestino</span>
-          </label>
-
-          <button
-            type="submit"
-            className="px-8 py-3 rounded-lg bg-emerald-500 text-white font-bold shadow"
-            aria-label="Buscar Vuelos"
-          >
-            Buscar Vuelos
-          </button>
-
-          <button
-            type="button"
-            onClick={quick}
-            className="px-6 py-3 rounded-lg bg-orange-500 text-white font-bold shadow"
-          >
-            Ofertas de Último Momento
-          </button>
-
-          <button
-            type="button"
-            onClick={nearby}
-            className="px-6 py-3 rounded-lg bg-[#F5EBDD] text-gray-900 font-bold shadow"
-          >
-            Opciones desde Aeropuertos Cercanos
-          </button>
+          <button type="submit" className="px-8 py-3 rounded-lg bg-emerald-500 text-white font-bold shadow">Buscar Vuelos</button>
+          <button type="button" onClick={quick} className="px-6 py-3 rounded-lg bg-orange-500 text-white font-bold shadow">Ofertas de Último Momento</button>
+          <button type="button" onClick={nearby} className="px-6 py-3 rounded-lg bg-[#F5EBDD] text-gray-900 font-bold shadow">Opciones desde Aeropuertos Cercanos</button>
+          
         </div>
       </div>
     </form>

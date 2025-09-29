@@ -1,63 +1,33 @@
+
+// src/components/FlightCard.jsx
 import React from "react";
 
 export default function FlightCard({ flight }) {
   return (
-    <div className="p-6 rounded-2xl bg-orange-500 shadow-lg flex flex-col justify-between">
-      {/* Aerolínea y Precio */}
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-2xl font-extrabold text-[#F7E7CE] tracking-wide">
-          {flight.airline}
-        </h3>
-        <div className="text-2xl font-extrabold text-[#F7E7CE] tracking-wide">
-          {flight.currency} {flight.price}
+    <div className="p-4 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl shadow text-gray-900">
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="text-lg font-bold">{flight.airline}</div>
+          <div className="text-sm">{flight.from} → {flight.to}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-extrabold">${flight.price}</div>
+          <div className="text-sm">{flight.currency}</div>
         </div>
       </div>
 
-      {/* Cabina */}
-      <div className="font-semibold mb-4 text-lg text-[#F7E7CE] tracking-wide">
-        {flight.cabin || "—"}
+      <div className="mt-3 text-sm text-gray-800">
+        {flight.date && <div>Fecha: {flight.date}</div>}
+        {flight.depart && <div>Salida: {flight.depart}</div>}
+        {flight.arrive && <div>Llega: {flight.arrive}</div>}
+        {flight.duration && <div>Duración: {flight.duration}</div>}
+        {flight.cabin && <div>Cabina: {flight.cabin}</div>}
+        {flight.stopover && <div>Escalas: {flight.stopover.stops || "1+"}</div>}
       </div>
 
-      {/* Detalles */}
-      <div className="space-y-2 text-base text-gray-800 leading-relaxed">
-        <div>
-          <span className="font-bold">Salida:</span>{" "}
-          <span>{flight.depart || "—"}</span>
-        </div>
-        <div>
-          <span className="font-bold">Llegada:</span>{" "}
-          <span>{flight.arrive || "—"}</span>
-        </div>
-        <div>
-          <span className="font-bold">Duración:</span>{" "}
-          <span>{flight.duration || "—"}</span>
-        </div>
-        <div>
-          <span className="font-bold">Stopover:</span>{" "}
-          <span>
-            {flight.stopover
-              ? `${flight.stopover.time} en ${flight.stopover.city}`
-              : "—"}
-          </span>
-        </div>
-        <div>
-          <span className="font-bold">Beneficios:</span>{" "}
-          <span>{flight.benefits || "—"}</span>
-        </div>
-        <div>
-          <span className="font-bold">Opciones de pago:</span>{" "}
-          <span>{flight.paymentOptions?.join(" · ") || "—"}</span>
-        </div>
-      </div>
-
-      {/* Botón */}
-      <div className="mt-5">
-        <a
-          href={flight.buyLink || "#"}
-          className="block w-full py-3 rounded-xl text-center font-bold bg-green-300 text-gray-900 hover:bg-green-400 text-lg"
-        >
-          Comprar
-        </a>
+      <div className="mt-4 flex items-center justify-between">
+        <a href={flight.buyLink || "#"} target="_blank" rel="noreferrer" className="px-3 py-2 bg-white/90 rounded font-bold text-orange-600">Comprar</a>
+        <div className="text-xs text-gray-800">{(flight.paymentOptions || []).join(" • ")}</div>
       </div>
     </div>
   );

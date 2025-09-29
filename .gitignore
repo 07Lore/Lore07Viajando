@@ -146,3 +146,4 @@ Thumbs.db
 /public/offers.json
 /src/App.jsx.bak
 
+.env.local
